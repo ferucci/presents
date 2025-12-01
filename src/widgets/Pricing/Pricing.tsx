@@ -7,9 +7,16 @@ import styles from './Pricing.module.scss';
 
 export const Pricing: FC = () => {
   const navigate = useNavigate();
+  const MAX_DISPLAYED = 3;
+  const displayedProducts = products.slice(0, MAX_DISPLAYED);
+  const hasMore = products.length > MAX_DISPLAYED;
 
   const handleViewDetails = (index: number) => {
     navigate(`/product/${index}`);
+  };
+
+  const handleShowMore = () => {
+    navigate('/catalog');
   };
 
   return (
@@ -27,7 +34,7 @@ export const Pricing: FC = () => {
         </motion.div>
 
         <div className={styles.grid}>
-          {products.map((variant, index) => (
+          {displayedProducts.map((variant, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}
@@ -68,6 +75,20 @@ export const Pricing: FC = () => {
             </motion.div>
           ))}
         </div>
+
+        {hasMore && (
+          <motion.div
+            className={styles.showMore}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+          >
+            <Button variant="outline" size="lg" onClick={handleShowMore}>
+              Показать ещё
+            </Button>
+          </motion.div>
+        )}
       </div>
     </section>
   );

@@ -50,7 +50,7 @@ export const ProductDetailPage: FC = () => {
             >
               <a href="/">Главная</a>
               <span className={styles.separator}>→</span>
-              <a href="/#pricing">Книги</a>
+              <a href="/catalog">Каталог</a>
               <span className={styles.separator}>→</span>
               <span>{product.name}</span>
             </motion.div>

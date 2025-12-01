@@ -1,4 +1,5 @@
 import { AboutPage } from '@pages/about';
+import { CatalogPage } from '@pages/catalog';
 import { DocumentationPage } from '@pages/documentation';
 import { FAQPage } from '@pages/faq';
 import { LandingPage } from '@pages/landing';
@@ -13,6 +14,7 @@ export const AppRouter = () => {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/catalog" element={<CatalogPage />} />
         <Route path="/faq" element={<FAQPage />} />
         <Route path="/documentation" element={<DocumentationPage />} />
         <Route path="/about" element={<AboutPage />} />
