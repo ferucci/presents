@@ -57,10 +57,9 @@ export const Header: FC = () => {
         )}
 
         <nav className={styles.nav}>
-          <button onClick={() => scrollToSection('features')}>Опции</button>
-          <button onClick={() => scrollToSection('pricing')}>Книги</button>
-          <button onClick={services}>Услуги</button>
           <button onClick={about}>О нас</button>
+          <button onClick={() => scrollToSection('pricing')}>Каталог</button>
+          <button onClick={services}>Услуги</button>
           <button onClick={() => scrollToSection('contact')}>Контакты</button>
         </nav>
 
