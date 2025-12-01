@@ -1,18 +1,13 @@
+import { useNavigation } from '@/hooks/useNavigation';
 import { useContactModal } from '@app/context/ContactModalContext';
 import { Button } from '@shared/ui';
 import { motion } from 'framer-motion';
 import { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styles from './Hero.module.scss';
 
 export const Hero: FC = () => {
   const { openModal } = useContactModal();
-
-  const navigate = useNavigate()
-
-  const handleAboutPage = () => {
-    navigate('/about')
-  }
+  const { about } = useNavigation();
 
   return (
     <section className={styles.hero}>
@@ -58,7 +53,7 @@ export const Hero: FC = () => {
             <Button
               variant="outline"
               size="lg"
-              onClick={() => handleAboutPage()}
+              onClick={about}
             >
               Подробнее
             </Button>
