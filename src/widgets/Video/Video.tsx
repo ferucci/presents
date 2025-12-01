@@ -42,9 +42,9 @@ export const Video: FC = () => {
           transition={{ duration: 0.6 }}
         >
           <h2>
-            Посмотрите, как собираются <span className="gradient-text">наши румбоксы</span>
+            Магия создания <span className="gradient-text">румбокса</span> в деталях
           </h2>
-          <p>Погрузитесь в процесс создания миниатюрных миров</p>
+          <p>Волшебное превращение деталей в законченную композицию</p>
         </motion.div>
 
         <motion.div

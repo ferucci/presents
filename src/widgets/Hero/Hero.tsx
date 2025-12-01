@@ -2,10 +2,17 @@ import { useContactModal } from '@app/context/ContactModalContext';
 import { Button } from '@shared/ui';
 import { motion } from 'framer-motion';
 import { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './Hero.module.scss';
 
 export const Hero: FC = () => {
   const { openModal } = useContactModal();
+
+  const navigate = useNavigate()
+
+  const handleAboutPage = () => {
+    navigate('/about')
+  }
 
   return (
     <section className={styles.hero}>
@@ -27,7 +34,7 @@ export const Hero: FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            Ваш <span className="gradient-text">румбокс</span>
+            Ваш <span className="gradient-text">румбокс</span> 🎁
           </motion.h1>
 
           <motion.p
@@ -46,9 +53,13 @@ export const Hero: FC = () => {
             transition={{ delay: 0.6, duration: 0.8 }}
           >
             <Button size="lg" onClick={openModal}>
-              Выбрать свой румбокс
+              Написать нам
             </Button>
-            <Button variant="outline" size="lg">
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={() => handleAboutPage()}
+            >
               Подробнее
             </Button>
           </motion.div>

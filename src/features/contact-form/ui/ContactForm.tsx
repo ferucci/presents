@@ -59,14 +59,14 @@ export const ContactForm: FC = () => {
       <Input
         label="Email"
         type="email"
-        placeholder="ivan@example.com"
+        placeholder="example@yandex.ru"
         error={errors.email?.message}
         {...register('email')}
       />
 
       <Input
         label="Телефон (необязательно)"
-        placeholder="+7 (999) 123-45-67"
+        placeholder="+7 (123) 456-78-90"
         error={errors.phone?.message}
         {...register('phone')}
       />
@@ -75,7 +75,7 @@ export const ContactForm: FC = () => {
         <label className={styles.label}>Сообщение</label>
         <textarea
           className={styles.textarea}
-          placeholder="Расскажите о вашем проекте..."
+          placeholder="Хочу сделать не забываемый подарок на пятнадцатилетие ребенка..."
           rows={5}
           {...register('message')}
         />

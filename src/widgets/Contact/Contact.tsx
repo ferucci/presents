@@ -14,8 +14,8 @@ export const Contact: FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2>Готовы начать <span className="gradient-text">сотрудничество</span>?</h2>
-          <p>Оставьте заявку и получите бесплатную консультацию</p>
+          <h2><span className="gradient-text">Свяжитесь </span>с нами!</h2>
+          <p>Оставьте заявку, мы свяжимся с вами в ближайшее время</p>
         </motion.div>
 
         <div className={styles.content}>

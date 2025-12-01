@@ -28,8 +28,6 @@ export const Footer: FC = () => {
             <h5>Соцсети</h5>
             <ul>
               <li><a href="#">Telegram</a></li>
-              <li><a href="#">LinkedIn</a></li>
-              <li><a href="#">Instagram</a></li>
             </ul>
           </div>
 
@@ -44,7 +42,7 @@ export const Footer: FC = () => {
         </div>
 
         <div className={styles.bottom}>
-          <p>&copy; 2025 webdesng. Все права защищены.</p>
+          <p>&copy; 2025 First Present. Все права защищены.</p>
         </div>
       </div>
     </footer>
