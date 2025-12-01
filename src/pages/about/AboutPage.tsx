@@ -1,65 +1,18 @@
 import { useContactModal } from '@app/context/ContactModalContext';
-import { Button } from '@shared/ui';
 import { ContactModalForm } from '@features/contact-modal';
+import { Button } from '@shared/ui';
 import { Footer } from '@widgets/Footer';
 import { Header } from '@widgets/Header';
 import { motion } from 'framer-motion';
 import { FC } from 'react';
 import styles from './About.module.scss';
 
+import { adv } from '@/data/aboutPage/adv';
+import { team } from '@/data/aboutPage/team';
+import { values } from '@/data/aboutPage/values';
+
 const AboutPage: FC = () => {
   const { isOpen, openModal, closeModal } = useContactModal();
-
-  const values = [
-    {
-      icon: '🎨',
-      title: 'Творчество',
-      description: 'Каждый румбокс — это произведение искусства, созданное с любовью и вниманием к деталям.',
-    },
-    {
-      icon: '✨',
-      title: 'Качество',
-      description: 'Мы используем только лучшие материалы и тщательно прорабатываем каждую деталь.',
-    },
-    {
-      icon: '❤️',
-      title: 'Страсть',
-      description: 'Мы влюблены в свое дело и хотим поделиться этой магией с вами.',
-    },
-    {
-      icon: '🤝',
-      title: 'Поддержка',
-      description: 'Мы всегда готовы помочь вам на каждом этапе создания вашего миниатюрного мира.',
-    },
-  ];
-
-  const team = [
-    {
-      name: 'Мария',
-      role: 'Основатель и мастер',
-      description: 'Создает уникальные дизайны и следит за качеством каждого румбокса.',
-      icon: '👩‍🎨',
-    },
-    {
-      name: 'Алексей',
-      role: 'Технический директор',
-      description: 'Разрабатывает инструкции и видео-гайды для удобной сборки.',
-      icon: '👨‍💻',
-    },
-    {
-      name: 'Елена',
-      role: 'Дизайнер',
-      description: 'Создает визуальные концепции и подбирает материалы для каждого проекта.',
-      icon: '👩‍🎨',
-    },
-  ];
-
-  const stats = [
-    { number: '500+', label: 'Собранных румбоксов' },
-    { number: '50+', label: 'Довольных клиентов' },
-    { number: '15+', label: 'Уникальных дизайнов' },
-    { number: '5', label: 'Лет опыта' },
-  ];
 
   return (
     <>
@@ -90,7 +43,7 @@ const AboutPage: FC = () => {
               transition={{ delay: 0.2, duration: 0.6 }}
             >
               <div className={styles.statsGrid}>
-                {stats.map((stat, index) => (
+                {adv.map((stat, index) => (
                   <motion.div
                     key={index}
                     className={styles.statCard}

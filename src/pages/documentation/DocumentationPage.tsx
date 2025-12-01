@@ -171,7 +171,7 @@ const DocumentationPage: FC = () => {
               <div className={styles.infoCard}>
                 <span className={styles.infoIcon}>🎁</span>
                 <h4>Упаковка</h4>
-                <p>Готовая подарочная коробка в комплекте</p>
+                <p>Дополнительно возможно упоковать в готовую подарочную упаковку</p>
               </div>
               <div className={styles.infoCard}>
                 <span className={styles.infoIcon}>🛠️</span>
