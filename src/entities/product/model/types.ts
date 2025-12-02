@@ -18,10 +18,10 @@ export const products: Product[] = [
     name: 'Волшебный книжный дом',
     images: [
 
-      '../src/assets/images/products/product-1_2.jpg',
-      '../src/assets/images/products/product-1_3.jpg',
-      '../src/assets/images/products/product-1_4.jpg',
-      '../src/assets/images/products/product-1.jpg',
+      '/images/products/product-1_2.jpg',
+      '/images/products/product-1_3.jpg',
+      '/images/products/product-1_4.jpg',
+      '/images/products/product-1.jpg',
     ],
     price: '5500 руб',
     period: '',
@@ -41,11 +41,11 @@ export const products: Product[] = [
   {
     name: 'Волшебная комната',
     images: [
-      '../src/assets/images/products/product-2_2.png',
-      '../src/assets/images/products/product-2_1.png',
-      '../src/assets/images/products/product-2_3.png',
-      '../src/assets/images/products/product-2_4.jpg',
-      '../src/assets/images/products/product-2.png',
+      '/images/products/product-2_2.png',
+      '/images/products/product-2_1.png',
+      '/images/products/product-2_3.png',
+      '/images/products/product-2_4.jpg',
+      '/images/products/product-2.png',
     ],
     price: '6 200 руб',
     period: '',
@@ -65,11 +65,11 @@ export const products: Product[] = [
   {
     name: 'Волшебная ночная аллея',
     images: [
-      '../src/assets/images/products/product-3.jpg',
-      '../src/assets/images/products/product-3_1.jpg',
-      '../src/assets/images/products/product-3_2.jpg',
-      '../src/assets/images/products/product-3_3.jpg',
-      '../src/assets/images/products/product-3_4.jpg',
+      '/images/products/product-3.jpg',
+      '/images/products/product-3_1.jpg',
+      '/images/products/product-3_2.jpg',
+      '/images/products/product-3_3.jpg',
+      '/images/products/product-3_4.jpg',
     ],
     price: '5 200 руб',
     period: '',
@@ -89,9 +89,9 @@ export const products: Product[] = [
   // {
   //   name: 'Библиотека Дамблдора',
   //   images: [
-  //     '../src/assets/images/products/products.jpg',
-  //     '../src/assets/images/products/product-1.jpg',
-  //     '../src/assets/images/products/product-2.jpg',
+  //     '/images/products/products.jpg',
+  //     '/images/products/product-1.jpg',
+  //     '/images/products/product-2.jpg',
   //   ],
   //   price: '7 800 руб',
   //   period: '',
@@ -110,9 +110,9 @@ export const products: Product[] = [
   // {
   //   name: 'Комната Алисы',
   //   images: [
-  //     '../src/assets/images/products/products.jpg',
-  //     '../src/assets/images/products/product-3.jpg',
-  //     '../src/assets/images/products/product-1.jpg',
+  //     '/images/products/products.jpg',
+  //     '/images/products/product-3.jpg',
+  //     '/images/products/product-1.jpg',
   //   ],
   //   price: '5 200 руб',
   //   period: '',
@@ -131,9 +131,9 @@ export const products: Product[] = [
   // {
   //   name: 'Каюты Титаника',
   //   images: [
-  //     '../src/assets/images/products/product-2.jpg',
-  //     '../src/assets/images/products/products.jpg',
-  //     '../src/assets/images/products/product-3.jpg',
+  //     '/images/products/product-2.jpg',
+  //     '/images/products/products.jpg',
+  //     '/images/products/product-3.jpg',
   //   ],
   //   price: '6 900 руб',
   //   period: '',
@@ -152,9 +152,9 @@ export const products: Product[] = [
   // {
   //   name: 'Лаборатория Франкенштейна',
   //   images: [
-  //     '../src/assets/images/products/product-1.jpg',
-  //     '../src/assets/images/products/product-2.jpg',
-  //     '../src/assets/images/products/products.jpg',
+  //     '/images/products/product-1.jpg',
+  //     '/images/products/product-2.jpg',
+  //     '/images/products/products.jpg',
   //   ],
   //   price: '7 500 руб',
   //   period: '',
@@ -173,9 +173,9 @@ export const products: Product[] = [
   // {
   //   name: 'Дом Белль',
   //   images: [
-  //     '../src/assets/images/products/product-3.jpg',
-  //     '../src/assets/images/products/product-1.jpg',
-  //     '../src/assets/images/products/products.jpg',
+  //     '/images/products/product-3.jpg',
+  //     '/images/products/product-1.jpg',
+  //     '/images/products/products.jpg',
   //   ],
   //   price: '5 800 руб',
   //   period: '',
@@ -194,9 +194,9 @@ export const products: Product[] = [
   // {
   //   name: 'Нарния: Платяной шкаф',
   //   images: [
-  //     '../src/assets/images/products/products.jpg',
-  //     '../src/assets/images/products/product-2.jpg',
-  //     '../src/assets/images/products/product-3.jpg',
+  //     '/images/products/products.jpg',
+  //     '/images/products/product-2.jpg',
+  //     '/images/products/product-3.jpg',
   //   ],
   //   price: '6 500 руб',
   //   period: '',
@@ -215,9 +215,9 @@ export const products: Product[] = [
   // {
   //   name: 'Обитель Хоббита',
   //   images: [
-  //     '../src/assets/images/products/product-1.jpg',
-  //     '../src/assets/images/products/products.jpg',
-  //     '../src/assets/images/products/product-2.jpg',
+  //     '/images/products/product-1.jpg',
+  //     '/images/products/products.jpg',
+  //     '/images/products/product-2.jpg',
   //   ],
   //   price: '7 200 руб',
   //   period: '',
@@ -236,9 +236,9 @@ export const products: Product[] = [
   // {
   //   name: 'Замок Рапунцель',
   //   images: [
-  //     '../src/assets/images/products/product-2.jpg',
-  //     '../src/assets/images/products/product-3.jpg',
-  //     '../src/assets/images/products/products.jpg',
+  //     '/images/products/product-2.jpg',
+  //     '/images/products/product-3.jpg',
+  //     '/images/products/products.jpg',
   //   ],
   //   price: '6 800 руб',
   //   period: '',
@@ -257,9 +257,9 @@ export const products: Product[] = [
   // {
   //   name: 'Квартира Шерлока (221B)',
   //   images: [
-  //     '../src/assets/images/products/product-3.jpg',
-  //     '../src/assets/images/products/product-1.jpg',
-  //     '../src/assets/images/products/products.jpg',
+  //     '/images/products/product-3.jpg',
+  //     '/images/products/product-1.jpg',
+  //     '/images/products/products.jpg',
   //   ],
   //   price: '6 400 руб',
   //   period: '',

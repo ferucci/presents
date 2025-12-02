@@ -67,7 +67,7 @@ export const Video: FC = () => {
               playsInline
               poster="/src/assets/video/poster.png"
             >
-              <source src="/src/assets/video/assembly-of-the-constructor.mp4" type="video/mp4" />
+              <source src="/video/assembly-of-the-constructor.mp4" type="video/mp4" />
               Ваш браузер не поддерживает видео тег.
             </video>
           </div>
