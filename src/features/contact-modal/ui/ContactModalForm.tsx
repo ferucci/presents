@@ -1,11 +1,12 @@
+import { useContactModal } from '@app/context/ContactModalContext';
 import { RootState } from '@app/store';
+import { submitFailure, submitStart, submitSuccess } from '@features/contact-form/model/contactSlice';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input, Modal } from '@shared/ui';
 import { motion } from 'framer-motion';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { submitFailure, submitStart, submitSuccess } from '@features/contact-form/model/contactSlice';
 import { ContactModalFormData, contactModalSchema, contactTopics } from '../model/validation';
 import styles from './ContactModalForm.module.scss';
 
@@ -17,15 +18,24 @@ interface ContactModalFormProps {
 export const ContactModalForm: FC<ContactModalFormProps> = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
   const { isSubmitting, success, error } = useSelector((state: RootState) => state.contact);
+  const { pageSource, productName } = useContactModal();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm<ContactModalFormData>({
     resolver: zodResolver(contactModalSchema),
   });
+
+  useEffect(() => {
+    if (isOpen) {
+      setValue('pageSource', pageSource || '');
+      setValue('productName', productName || '');
+    }
+  }, [isOpen, pageSource, productName, setValue]);
 
   const onSubmit = async (data: ContactModalFormData) => {
     dispatch(submitStart());
@@ -117,6 +127,10 @@ export const ContactModalForm: FC<ContactModalFormProps> = ({ isOpen, onClose })
               <span className={styles.errorText}>{errors.message.message}</span>
             )}
           </div>
+
+          {/* Скрытые поля для идентификации */}
+          <input type="hidden" {...register('pageSource')} />
+          <input type="hidden" {...register('productName')} />
 
           <Button
             type="submit"

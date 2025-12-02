@@ -155,7 +155,7 @@ const AboutPage: FC = () => {
                   Присоединяйтесь к нашему сообществу творцов и создавайте волшебство
                   своими руками
                 </p>
-                <Button variant="secondary" size="lg" onClick={openModal}>
+                <Button variant="secondary" size="lg" onClick={() => openModal('Страница "О нас"')}>
                   Связаться с нами
                 </Button>
               </div>

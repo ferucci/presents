@@ -149,7 +149,7 @@ const ServicesPage: FC = () => {
                       variant="outline"
                       size="md"
                       fullWidth
-                      onClick={openModal}
+                      onClick={() => openModal('Страница "Услуги"')}
                       className={styles.serviceButton}
                     >
                       Заказать услугу
@@ -206,7 +206,7 @@ const ServicesPage: FC = () => {
                 <p>
                   Свяжитесь с нами, и мы поможем выбрать идеальный вариант для вашего румбокса
                 </p>
-                <Button variant="secondary" size="lg" onClick={openModal}>
+                <Button variant="secondary" size="lg" onClick={() => openModal('Страница "Услуги"')}>
                   Связаться с нами
                 </Button>
               </div>

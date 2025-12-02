@@ -145,7 +145,7 @@ const DocumentationPage: FC = () => {
                 <Button
                   variant="secondary"
                   size="lg"
-                  onClick={openContactModal}
+                  onClick={() => openContactModal('Страница "Документация"')}
                 >
                   Заказать со скидкой
                 </Button>

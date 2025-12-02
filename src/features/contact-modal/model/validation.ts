@@ -20,6 +20,8 @@ export const contactModalSchema = z.object({
     .string()
     .min(10, 'Сообщение должно содержать минимум 10 символов')
     .max(500, 'Сообщение слишком длинное'),
+  pageSource: z.string().optional(),
+  productName: z.string().optional(),
 });
 
 export type ContactModalFormData = z.infer<typeof contactModalSchema>;

@@ -2,9 +2,10 @@ import { RootState } from '@app/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input } from '@shared/ui';
 import { motion } from 'framer-motion';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { submitFailure, submitStart, submitSuccess } from '../model/contactSlice';
 import { ContactFormData, contactSchema } from '../model/validation';
 import styles from './ContactForm.module.scss';
@@ -12,15 +13,22 @@ import styles from './ContactForm.module.scss';
 export const ContactForm: FC = () => {
   const dispatch = useDispatch();
   const { isSubmitting, success, error } = useSelector((state: RootState) => state.contact);
+  const location = useLocation();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
   });
+
+  useEffect(() => {
+    const pageSource = location.pathname === '/' ? 'Главная страница (секция Контакты)' : location.pathname;
+    setValue('pageSource', pageSource);
+  }, [location.pathname, setValue]);
 
   const onSubmit = async (data: ContactFormData) => {
     dispatch(submitStart());
@@ -83,6 +91,9 @@ export const ContactForm: FC = () => {
           <span className={styles.error}>{errors.message.message}</span>
         )}
       </div>
+
+      {/* Скрытые поля для идентификации */}
+      <input type="hidden" {...register('pageSource')} />
 
       <Button
         type="submit"

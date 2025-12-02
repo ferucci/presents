@@ -47,7 +47,7 @@ export const Hero: FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
           >
-            <Button size="lg" onClick={openModal}>
+            <Button size="lg" onClick={() => openModal('Главная страница (Hero)')}>
               Написать нам
             </Button>
             <Button

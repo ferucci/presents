@@ -107,7 +107,7 @@ export const ProductDetailPage: FC = () => {
                     variant="secondary"
                     size="lg"
                     fullWidth
-                    onClick={openContactModal}
+                    onClick={() => openContactModal('Страница товара', product.name)}
                   >
                     Забронировать
                   </Button>
@@ -176,7 +176,7 @@ export const ProductDetailPage: FC = () => {
               <p>
                 Оставьте заявку, и мы свяжемся с вами для уточнения деталей
               </p>
-              <Button variant="secondary" size="lg" onClick={openContactModal}>
+              <Button variant="secondary" size="lg" onClick={() => openContactModal('Страница товара', product.name)}>
                 Забронировать румбокс
               </Button>
             </motion.div>
