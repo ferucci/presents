@@ -1,0 +1,45 @@
+@use "@app/styles/variables.scss" as *;
+
+.telegramButton {
+  position: fixed;
+  bottom: var(--spacing-xl);
+  right: var(--spacing-xl);
+  width: 56px;
+  height: 56px;
+  background: rgba(37, 150, 190, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(37, 150, 190, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(37, 150, 190, 0.7);
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  text-decoration: none;
+
+  &:hover {
+    background: rgba(37, 150, 190, 0.25);
+    border-color: rgba(37, 150, 190, 0.5);
+    color: rgba(37, 150, 190, 0.9);
+    box-shadow: 0 4px 12px rgba(37, 150, 190, 0.2);
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  @media (max-width: 768px) {
+    width: 48px;
+    height: 48px;
+    bottom: var(--spacing-lg);
+    right: var(--spacing-lg);
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
