@@ -1,4 +1,5 @@
 import { imagesDocs, roomboxAdv, tips } from '@/data/documentationPage';
+import { InfoDetails } from '@/widgets/InfoDetails/InfoDetails';
 import { useContactModal } from '@app/context/ContactModalContext';
 import { ContactModalForm } from '@features/contact-modal';
 import { Button, ImageModal, ImageSlider } from '@shared/ui';
@@ -150,35 +151,8 @@ const DocumentationPage: FC = () => {
                 </Button>
               </div>
             </motion.div>
-
             {/* Дополнительная информация */}
-            <motion.div
-              className={styles.infoSection}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.6 }}
-            >
-              <div className={styles.infoCard}>
-                <span className={styles.infoIcon}>⏱️</span>
-                <h4>Время сборки</h4>
-                <p>8-15 часов увлекательного творчества</p>
-              </div>
-              <div className={styles.infoCard}>
-                <span className={styles.infoIcon}>📏</span>
-                <h4>Размеры</h4>
-                <p>Компактные габариты для любого пространства</p>
-              </div>
-              <div className={styles.infoCard}>
-                <span className={styles.infoIcon}>🎁</span>
-                <h4>Упаковка</h4>
-                <p>Дополнительно возможно упоковать в готовую подарочную упаковку</p>
-              </div>
-              <div className={styles.infoCard}>
-                <span className={styles.infoIcon}>🛠️</span>
-                <h4>Инструменты</h4>
-                <p>Всё необходимое уже в наборе</p>
-              </div>
-            </motion.div>
+            <InfoDetails />
           </div>
         </section>
       </main>

@@ -1,3 +1,5 @@
+import { useNavigation } from '@/hooks/useNavigation';
+import { InfoDetails } from '@/widgets/InfoDetails/InfoDetails';
 import { useContactModal } from '@app/context/ContactModalContext';
 import { products } from '@entities/product';
 import { ContactModalForm } from '@features/contact-modal';
@@ -14,6 +16,7 @@ export const ProductDetailPage: FC = () => {
   const { isOpen: isContactModalOpen, openModal: openContactModal, closeModal: closeContactModal } = useContactModal();
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [imageModalIndex, setImageModalIndex] = useState(0);
+  const { catalog } = useNavigation();
 
   const productIndex = id ? parseInt(id, 10) : -1;
   const product = products[productIndex];
@@ -112,7 +115,7 @@ export const ProductDetailPage: FC = () => {
                     variant="outline"
                     size="lg"
                     fullWidth
-                    onClick={() => (window.location.href = '/')}
+                    onClick={catalog}
                   >
                     Вернуться к каталогу
                   </Button>
@@ -158,31 +161,9 @@ export const ProductDetailPage: FC = () => {
                 </p>
               </div>
 
-              <div className={styles.infoCards}>
-                <div className={styles.infoCard}>
-                  <span className={styles.cardIcon}>⏱️</span>
-                  <h4>Время сборки</h4>
-                  <p>8-15 часов увлекательного творчества</p>
-                </div>
+              {/* Дополнительная информация */}
+              <InfoDetails />
 
-                <div className={styles.infoCard}>
-                  <span className={styles.cardIcon}>📏</span>
-                  <h4>Размеры</h4>
-                  <p>Компактные габариты для любого пространства</p>
-                </div>
-
-                <div className={styles.infoCard}>
-                  <span className={styles.cardIcon}>🎁</span>
-                  <h4>Упаковка</h4>
-                  <p>Готовая подарочная коробка в комплекте</p>
-                </div>
-
-                <div className={styles.infoCard}>
-                  <span className={styles.cardIcon}>🛠️</span>
-                  <h4>Инструменты</h4>
-                  <p>Всё необходимое уже в наборе</p>
-                </div>
-              </div>
             </motion.div>
 
             {/* CTA блок */}
