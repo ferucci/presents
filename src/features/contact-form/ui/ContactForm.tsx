@@ -1,6 +1,7 @@
 import { RootState } from '@app/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input } from '@shared/ui';
+import { handlePhoneInput } from '@shared/utils/phoneMask';
 import { motion } from 'framer-motion';
 import { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -21,9 +22,15 @@ export const ContactForm: FC = () => {
     formState: { errors },
     reset,
     setValue,
+    watch,
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
+    defaultValues: {
+      phone: '+7',
+    },
   });
+
+  const phoneValue = watch('phone');
 
   useEffect(() => {
     const pageSource = location.pathname === '/' ? 'Главная страница (секция Контакты)' : location.pathname;
@@ -58,33 +65,54 @@ export const ContactForm: FC = () => {
       viewport={{ once: true }}
     >
       <Input
+        id="name"
         label="Ваше имя"
         placeholder="Иван Иванов"
+        autoComplete="name"
         error={errors.name?.message}
         {...register('name')}
       />
 
       <Input
+        id="email"
         label="Email"
         type="email"
         placeholder="example@yandex.ru"
+        autoComplete="email"
         error={errors.email?.message}
         {...register('email')}
       />
 
       <Input
+        id="phone"
         label="Телефон (необязательно)"
-        placeholder="+7 (123) 456-78-90"
+        placeholder="+7 (999) 123-45-67"
+        autoComplete="tel"
         error={errors.phone?.message}
-        {...register('phone')}
+        value={phoneValue || '+7'}
+        {...register('phone', {
+          onChange: (e) => {
+            handlePhoneInput(e, (value) => setValue('phone', value, { shouldValidate: true }));
+          },
+        })}
+        onFocus={(e) => {
+          if (!e.target.value || e.target.value === '') {
+            setValue('phone', '+7');
+          }
+        }}
       />
 
       <div className={styles.textareaWrapper}>
-        <label className={styles.label}>Сообщение</label>
+        <label
+          className={styles.label}
+          htmlFor="message"
+        >Сообщение</label>
         <textarea
+          id="message"
           className={styles.textarea}
           placeholder="Хочу сделать не забываемый подарок на пятнадцатилетие ребенка..."
           rows={5}
+          autoComplete="off"
           {...register('message')}
         />
         {errors.message && (

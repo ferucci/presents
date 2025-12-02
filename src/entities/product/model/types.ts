@@ -39,7 +39,7 @@ export const products: Product[] = [
     priceValue: 5500,
   },
   {
-    name: 'Волшебный мир',
+    name: 'Волшебная комната',
     images: [
       '../src/assets/images/products/product-2_2.png',
       '../src/assets/images/products/product-2_1.png',

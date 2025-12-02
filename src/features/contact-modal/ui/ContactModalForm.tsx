@@ -3,6 +3,7 @@ import { RootState } from '@app/store';
 import { submitFailure, submitStart, submitSuccess } from '@features/contact-form/model/contactSlice';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input, Modal } from '@shared/ui';
+import { handlePhoneInput } from '@shared/utils/phoneMask';
 import { motion } from 'framer-motion';
 import { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -26,9 +27,15 @@ export const ContactModalForm: FC<ContactModalFormProps> = ({ isOpen, onClose })
     formState: { errors },
     reset,
     setValue,
+    watch,
   } = useForm<ContactModalFormData>({
     resolver: zodResolver(contactModalSchema),
+    defaultValues: {
+      phone: '+7',
+    },
   });
+
+  const phoneValue = watch('phone');
 
   useEffect(() => {
     if (isOpen) {
@@ -76,30 +83,50 @@ export const ContactModalForm: FC<ContactModalFormProps> = ({ isOpen, onClose })
 
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <Input
+            id="modal-name"
             label="Ваше имя"
             placeholder="Иван Иванов"
+            autoComplete="name"
             error={errors.name?.message}
             {...register('name')}
           />
 
           <Input
+            id="modal-email"
             label="Email"
             type="email"
             placeholder="ivan@example.com"
+            autoComplete="email"
             error={errors.email?.message}
             {...register('email')}
           />
 
           <Input
+            id="modal-phone"
             label="Телефон (необязательно)"
             placeholder="+7 (999) 123-45-67"
+            autoComplete="tel"
             error={errors.phone?.message}
-            {...register('phone')}
+            value={phoneValue || '+7'}
+            {...register('phone', {
+              onChange: (e) => {
+                handlePhoneInput(e, (value) => setValue('phone', value, { shouldValidate: true }));
+              },
+            })}
+            onFocus={(e) => {
+              if (!e.target.value || e.target.value === '') {
+                setValue('phone', '+7');
+              }
+            }}
           />
 
           <div className={styles.selectWrapper}>
-            <label className={styles.label}>Тема обращения</label>
+            <label
+              className={styles.label}
+              htmlFor="modal-topic"
+            >Тема обращения</label>
             <select
+              id="modal-topic"
               className={`${styles.select} ${errors.topic ? styles.error : ''}`}
               {...register('topic')}
             >
@@ -116,11 +143,16 @@ export const ContactModalForm: FC<ContactModalFormProps> = ({ isOpen, onClose })
           </div>
 
           <div className={styles.textareaWrapper}>
-            <label className={styles.label}>Сообщение</label>
+            <label
+              className={styles.label}
+              htmlFor="message"
+            >Сообщение</label>
             <textarea
+              id="message"
               className={`${styles.textarea} ${errors.message ? styles.error : ''}`}
               placeholder="Расскажите о вашем вопросе или заказе..."
               rows={5}
+              autoComplete="off"
               {...register('message')}
             />
             {errors.message && (
