@@ -4,7 +4,7 @@ import styles from './Footer.module.scss';
 
 export const Footer: FC = () => {
 
-  const { about, services, faq, contact, documentation } = useNavigation();
+  const { about, services, faq, contact, documentation, privacy } = useNavigation();
 
   return (
     <footer className={styles.footer}>
@@ -34,9 +34,9 @@ export const Footer: FC = () => {
           <div className={styles.column}>
             <h5>Поддержка</h5>
             <ul>
-              <li><a href="#" onClick={faq}>FAQ</a></li>
-              <li><a href="#" onClick={documentation}>Документация</a></li>
-              <li><a href="#">Политика</a></li>
+              <li><button onClick={faq}>FAQ</button></li>
+              <li><button onClick={documentation}>Документация</button></li>
+              <li><button onClick={privacy}>Политика</button></li>
             </ul>
           </div>
         </div>

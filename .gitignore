@@ -9,6 +9,8 @@ dist-ssr
 coverage
 *.log
 
+TZ.md
+
 Docs
 learn
 

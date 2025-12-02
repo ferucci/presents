@@ -9,6 +9,7 @@ export const useNavigation = () => {
     services: () => navigate('/services'),
     documentation: () => navigate('/documentation'),
     faq: () => navigate('/faq'),
+    privacy: () => navigate('/privacy'),
     contact: () => navigate('/#contact')
   };
 

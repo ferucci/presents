@@ -1,0 +1,3 @@
+export { PrivacyPage } from './PrivacyPage';
+
+
