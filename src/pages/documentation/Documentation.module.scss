@@ -11,7 +11,12 @@
 
   &__hero {
     display: flex;
-    gap: var(--spacing-xl)
+    gap: var(--spacing-xl);
+
+    @media (max-width: 992px) {
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
   }
 }
 
@@ -52,6 +57,12 @@
   min-width: calc(var(--container-xl) / 3);
   margin-left: auto;
   margin-right: auto;
+}
+
+.tipsSection {
+  @media (max-width: 992px) {
+    order: -1;
+  }
 }
 
 .tipsSection,

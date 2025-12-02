@@ -60,7 +60,7 @@ const DocumentationPage: FC = () => {
               >
                 <ImageSlider
                   images={imagesDocs}
-                  alt="Примеры готовых румбоксов"
+                  alt="Подробная документация по сборке румбокса"
                   onImageClick={handleImageClick}
                 />
               </motion.div>
