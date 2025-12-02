@@ -9,7 +9,7 @@ import { FC, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Catalog.module.scss';
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 4;
 
 type SortOption = 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc' | 'popular';
 
@@ -25,35 +25,35 @@ export const CatalogPage: FC = () => {
   const [displayedCount, setDisplayedCount] = useState(ITEMS_PER_PAGE);
   const [sortBy, setSortBy] = useState<SortOption>('name-asc');
   const [showOnlyPopular, setShowOnlyPopular] = useState(false);
-  const [isFiltersCollapsed, setIsFiltersCollapsed] = useState(false);
-  const [isColorsCollapsed, setIsColorsCollapsed] = useState(false);
-  const [isAttributesCollapsed, setIsAttributesCollapsed] = useState(false);
-  const [isFunctionalityCollapsed, setIsFunctionalityCollapsed] = useState(false);
+  const [isFiltersCollapsed, setIsFiltersCollapsed] = useState(true);
+  // const [isColorsCollapsed, setIsColorsCollapsed] = useState(false);
+  // const [isAttributesCollapsed, setIsAttributesCollapsed] = useState(false);
+  // const [isFunctionalityCollapsed, setIsFunctionalityCollapsed] = useState(false);
 
   // Получаем все уникальные значения для фильтров
-  const allColors = useMemo(() => {
-    const colorsSet = new Set<string>();
-    products.forEach(product => {
-      product.colors?.forEach(color => colorsSet.add(color));
-    });
-    return Array.from(colorsSet).sort();
-  }, []);
+  // const allColors = useMemo(() => {
+  //   const colorsSet = new Set<string>();
+  //   products.forEach(product => {
+  //     product.colors?.forEach(color => colorsSet.add(color));
+  //   });
+  //   return Array.from(colorsSet).sort();
+  // }, []);
 
-  const allAttributes = useMemo(() => {
-    const attrsSet = new Set<string>();
-    products.forEach(product => {
-      product.attributes?.forEach(attr => attrsSet.add(attr));
-    });
-    return Array.from(attrsSet).sort();
-  }, []);
+  // const allAttributes = useMemo(() => {
+  //   const attrsSet = new Set<string>();
+  //   products.forEach(product => {
+  //     product.attributes?.forEach(attr => attrsSet.add(attr));
+  //   });
+  //   return Array.from(attrsSet).sort();
+  // }, []);
 
-  const allFunctionality = useMemo(() => {
-    const funcSet = new Set<string>();
-    products.forEach(product => {
-      product.functionality?.forEach(func => funcSet.add(func));
-    });
-    return Array.from(funcSet).sort();
-  }, []);
+  // const allFunctionality = useMemo(() => {
+  //   const funcSet = new Set<string>();
+  //   products.forEach(product => {
+  //     product.functionality?.forEach(func => funcSet.add(func));
+  //   });
+  //   return Array.from(funcSet).sort();
+  // }, []);
 
   const maxPrice = useMemo(() => {
     return Math.max(...products.map(p => p.priceValue || 0), 10000);
@@ -224,8 +224,9 @@ export const CatalogPage: FC = () => {
 
                     {/* Поиск */}
                     <div className={styles.filterSection}>
-                      <label className={styles.filterLabel}>Поиск</label>
+                      <label className={styles.filterLabel} htmlFor="search">Поиск</label>
                       <input
+                        id="search"
                         type="text"
                         placeholder="Введите название..."
                         value={searchQuery}
@@ -236,8 +237,9 @@ export const CatalogPage: FC = () => {
 
                     {/* Сортировка */}
                     <div className={styles.filterSection}>
-                      <label className={styles.filterLabel}>Сортировка</label>
+                      <label className={styles.filterLabel} htmlFor="sort">Сортировка</label>
                       <select
+                        id="sort"
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value as SortOption)}
                         className={styles.selectInput}
@@ -308,7 +310,7 @@ export const CatalogPage: FC = () => {
                     </div>
 
                     {/* Цвета */}
-                    <div className={styles.filterSection}>
+                    {/* <div className={styles.filterSection}>
                       <div className={styles.filterSectionHeader}>
                         <label className={styles.filterLabel}>Цвета</label>
                         <button
@@ -355,10 +357,10 @@ export const CatalogPage: FC = () => {
                           </div>
                         )}
                       </motion.div>
-                    </div>
+                    </div> */}
 
                     {/* Атрибуты */}
-                    <div className={styles.filterSection}>
+                    {/* <div className={styles.filterSection}>
                       <div className={styles.filterSectionHeader}>
                         <label className={styles.filterLabel}>Атрибуты</label>
                         <button
@@ -405,10 +407,10 @@ export const CatalogPage: FC = () => {
                           </div>
                         )}
                       </motion.div>
-                    </div>
+                    </div> */}
 
                     {/* Функционал */}
-                    <div className={styles.filterSection}>
+                    {/* <div className={styles.filterSection}>
                       <div className={styles.filterSectionHeader}>
                         <label className={styles.filterLabel}>Функционал</label>
                         <button
@@ -455,7 +457,7 @@ export const CatalogPage: FC = () => {
                           </div>
                         )}
                       </motion.div>
-                    </div>
+                    </div> */}
 
                     {/* Сброс фильтров */}
                     {hasActiveFilters && (
