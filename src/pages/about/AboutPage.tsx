@@ -149,14 +149,13 @@ const AboutPage: FC = () => {
             >
               <div className={styles.ctaCard}>
                 <h2>
-                  Готовы создать свой <span className="gradient-text">миниатюрный мир</span>?
+                  Готовы заказать свой <span className="gradient-text">миниатюрный мир</span>?
                 </h2>
                 <p>
-                  Присоединяйтесь к нашему сообществу творцов и создавайте волшебство
-                  своими руками
+                  Для консультации и подбора оставьте заявку. Мы с радостью поможем найти именно то, что вы ищете.
                 </p>
                 <Button variant="secondary" size="lg" onClick={() => openModal('Страница "О нас"')}>
-                  Связаться с нами
+                  Оставить заявку
                 </Button>
               </div>
             </motion.div>
