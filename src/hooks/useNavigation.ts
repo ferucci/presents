@@ -1,17 +1,19 @@
-import { useNavigate } from "react-router-dom";
+'use client';
+
+import { useRouter } from "next/navigation";
 
 export const useNavigation = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const navigation = {
-    home: () => navigate('/'),
-    about: () => navigate('/about'),
-    services: () => navigate('/services'),
-    documentation: () => navigate('/documentation'),
-    faq: () => navigate('/faq'),
-    privacy: () => navigate('/privacy'),
-    contact: () => navigate('/#contact'),
-    catalog: () => navigate('/catalog')
+    home: () => router.push('/'),
+    about: () => router.push('/about'),
+    services: () => router.push('/services'),
+    documentation: () => router.push('/documentation'),
+    faq: () => router.push('/faq'),
+    privacy: () => router.push('/privacy'),
+    contact: () => router.push('/#contact'),
+    catalog: () => router.push('/catalog')
   };
 
   return navigation;

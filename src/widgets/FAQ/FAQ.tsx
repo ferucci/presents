@@ -1,10 +1,16 @@
+'use client';
+
+import { useContactModal } from '@/app/context/ContactModalContext';
 import { faqData } from '@/data/faq';
+import { ContactModalForm } from '@/features/contact-modal';
+import { Button } from '@/shared/ui';
 import { motion } from 'framer-motion';
 import { FC, useState } from 'react';
 import styles from './FAQ.module.scss';
 
 export const FAQ: FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const { isOpen, openModal, closeModal } = useContactModal();
 
   const toggleQuestion = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -71,11 +77,12 @@ export const FAQ: FC = () => {
         >
           <h3>Не нашли ответ на свой вопрос?</h3>
           <p>Свяжитесь с нами — мы с радостью ответим!</p>
-          <a href="/#contact" className={styles.ctaButton}>
+          <Button size="lg" onClick={() => openModal('Страница "FAQ"')} >
             Написать нам
-          </a>
+          </Button>
         </motion.div>
       </div>
+      <ContactModalForm isOpen={isOpen} onClose={closeModal} />
     </section>
   );
 };

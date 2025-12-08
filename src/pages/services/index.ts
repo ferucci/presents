@@ -1,2 +1,0 @@
-export { ServicesPage } from './ServicesPage';
-

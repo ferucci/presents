@@ -1,3 +1,5 @@
+'use client';
+
 import { useNavigation } from '@/hooks/useNavigation';
 import { FC } from 'react';
 import styles from './Footer.module.scss';

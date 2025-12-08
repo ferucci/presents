@@ -1,3 +1,5 @@
+'use client';
+
 import { motion } from 'framer-motion';
 import { FC, RefObject, useRef, useState } from 'react';
 import styles from './Video.module.scss';
@@ -65,9 +67,9 @@ export const Video: FC = () => {
               loop
               preload="metadata"
               playsInline
-              poster="/src/assets/video/poster.png"
+              poster="/video/poster.png"
             >
-              <source src="/src/assets/video/assembly-of-the-constructor.mp4" type="video/mp4" />
+              <source src="/video/assembly-of-the-constructor.mp4" type="video/mp4" />
               Ваш браузер не поддерживает видео тег.
             </video>
           </div>

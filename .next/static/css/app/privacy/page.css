@@ -1,0 +1,117 @@
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[14].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[14].oneOf[9].use[5]!./src/widgets/Privacy/Privacy.module.scss ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.Privacy_privacy__DDyvH {
+  min-height: 100vh;
+  padding: calc(80px + var(--spacing-2xl)) 0 var(--spacing-2xl);
+  background: var(--gradient-dark);
+}
+
+.Privacy_container__xNIgA {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  max-width: 900px;
+}
+
+.Privacy_header__3vYEM {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+}
+.Privacy_header__3vYEM h1 {
+  margin-bottom: var(--spacing-sm);
+}
+.Privacy_header__3vYEM p {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-muted);
+}
+
+.Privacy_list__pr7Lf {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.Privacy_item__vSyWy {
+  background: rgba(37, 37, 65, 0.6);
+  -webkit-backdrop-filter: blur(12px);
+          backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all var(--transition-base);
+}
+.Privacy_item__vSyWy:hover {
+  border-color: var(--color-primary);
+}
+
+.Privacy_title__uy3kV {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background: transparent;
+  color: var(--color-text-primary);
+  text-align: left;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+.Privacy_title__uy3kV:hover {
+  color: var(--color-accent);
+}
+.Privacy_title__uy3kV[aria-expanded=true] {
+  color: var(--color-primary);
+}
+
+.Privacy_titleText__xRp6O {
+  flex: 1 1;
+}
+
+.Privacy_icon__NSxqn {
+  font-size: var(--font-size-sm);
+  color: var(--color-accent);
+  transition: transform var(--transition-base);
+  flex-shrink: 0;
+}
+
+.Privacy_iconOpen__cY4uG {
+  transform: rotate(180deg);
+}
+
+.Privacy_content__8ITEV {
+  overflow: hidden;
+}
+
+.Privacy_contentText__46iUT {
+  padding: 0 var(--spacing-lg) var(--spacing-lg);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+  line-height: 1.8;
+}
+
+.Privacy_footer__USP1v {
+  text-align: center;
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--color-border);
+}
+.Privacy_footer__USP1v p {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+@media (max-width: 768px) {
+  .Privacy_title__uy3kV {
+    font-size: var(--font-size-base);
+    padding: var(--spacing-md);
+  }
+  .Privacy_contentText__46iUT {
+    padding: 0 var(--spacing-md) var(--spacing-md);
+    font-size: var(--font-size-sm);
+  }
+}

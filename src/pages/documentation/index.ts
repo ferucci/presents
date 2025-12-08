@@ -1,2 +1,0 @@
-export { DocumentationPage } from './DocumentationPage';
-

@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import { ButtonHTMLAttributes, FC } from 'react';
-import styles from './Button.module.scss';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline';
@@ -19,10 +18,10 @@ export const Button: FC<ButtonProps> = ({
   return (
     <button
       className={clsx(
-        styles.button,
-        styles[variant],
-        styles[size],
-        fullWidth && styles.fullWidth,
+        'button',
+        variant,
+        size,
+        fullWidth && 'fullWidth',
         className
       )}
       {...props}

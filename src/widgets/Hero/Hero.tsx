@@ -1,3 +1,5 @@
+'use client';
+
 import { useNavigation } from '@/hooks/useNavigation';
 import { useContactModal } from '@app/context/ContactModalContext';
 import { Button } from '@shared/ui';
@@ -29,7 +31,7 @@ export const Hero: FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            Ваш <span className="gradient-text">румбокс</span> 🎁
+            Волшебный <span className="gradient-text">книжный мир</span> 🎁
           </motion.h1>
 
           <motion.p

@@ -1,5 +1,8 @@
+'use client';
+
 import { AnimatePresence, motion } from 'framer-motion';
-import { FC, useEffect, useState } from 'react';
+import Image from 'next/image';
+import { FC, useCallback, useEffect, useState } from 'react';
 import styles from './ImageSlider.module.scss';
 
 interface ImageSliderProps {
@@ -36,29 +39,30 @@ export const ImageSlider: FC<ImageSliderProps> = ({ images, alt, onImageClick })
     return Math.abs(offset) * velocity;
   };
 
-  const paginate = (newDirection: number) => {
+  // Обернули paginate в useCallback
+  const paginate = useCallback((newDirection: number) => {
     const newIndex = currentIndex + newDirection;
     if (newIndex >= 0 && newIndex < images.length) {
       setDirection(newDirection);
       setCurrentIndex(newIndex);
     }
-  };
+  }, [currentIndex, images.length]); // Зависимости
 
-  const goToSlide = (index: number) => {
+  const goToSlide = useCallback((index: number) => {
     setDirection(index > currentIndex ? 1 : -1);
     setCurrentIndex(index);
-  };
+  }, [currentIndex]);
 
   // Touch handlers для свайпов
-  const handleTouchStart = (e: React.TouchEvent) => {
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX);
-  };
+  }, []);
 
-  const handleTouchMove = (e: React.TouchEvent) => {
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
     setTouchEnd(e.targetTouches[0].clientX);
-  };
+  }, []);
 
-  const handleTouchEnd = () => {
+  const handleTouchEnd = useCallback(() => {
     if (!touchStart || !touchEnd) return;
 
     const distance = touchStart - touchEnd;
@@ -73,9 +77,9 @@ export const ImageSlider: FC<ImageSliderProps> = ({ images, alt, onImageClick })
 
     setTouchStart(0);
     setTouchEnd(0);
-  };
+  }, [touchStart, touchEnd, paginate]); // Добавили paginate в зависимости
 
-  // Keyboard navigation
+  // Keyboard navigation - ИСПРАВЛЕННЫЙ useEffect
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') {
@@ -87,7 +91,7 @@ export const ImageSlider: FC<ImageSliderProps> = ({ images, alt, onImageClick })
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex]);
+  }, [paginate]); // Теперь paginate в зависимостях
 
   // Проверка на placeholder
   const isPlaceholder = images[0]?.startsWith('url-with-image');
@@ -133,7 +137,14 @@ export const ImageSlider: FC<ImageSliderProps> = ({ images, alt, onImageClick })
               </div>
             ) : (
               <div className={styles.zoomWrapper} onClick={() => onImageClick?.(currentIndex)}>
-                <img src={images[currentIndex]} alt={`${alt} - фото ${currentIndex + 1}`} />
+                <Image
+                  src={images[currentIndex]}
+                  alt={`${alt} - фото ${currentIndex + 1}`}
+                  fill={true}
+                  priority={currentIndex === 0}
+                  // Добавьте необходимые свойства для Image
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
               </div>
             )}
           </motion.div>
@@ -197,7 +208,14 @@ export const ImageSlider: FC<ImageSliderProps> = ({ images, alt, onImageClick })
                   <span>{index + 1}</span>
                 </div>
               ) : (
-                <img src={image} alt={`Миниатюра ${index + 1}`} />
+                <Image
+                  src={image}
+                  alt={`Миниатюра инструкции ${index + 1}`}
+                  width={80}
+                  height={60}
+                  priority={true}
+                  style={{ objectFit: 'cover' }}
+                />
               )}
             </button>
           ))}
@@ -206,4 +224,3 @@ export const ImageSlider: FC<ImageSliderProps> = ({ images, alt, onImageClick })
     </div>
   );
 };
-
