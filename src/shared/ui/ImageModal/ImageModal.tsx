@@ -1,5 +1,8 @@
-import { Modal } from '@shared/ui/Modal';
+'use client';
+
+import Image from 'next/image';
 import { FC, useCallback, useEffect, useState } from 'react';
+import { Modal } from '../Modal/Modal';
 import styles from './ImageModal.module.scss';
 
 interface ImageModalProps {
@@ -115,9 +118,11 @@ export const ImageModal: FC<ImageModalProps> = ({
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <img
+        <Image
           src={images[imageIndex]}
           alt={`${alt} - фото ${imageIndex + 1}`}
+          fill={true}
+          priority={true}
         />
       </div>
 

@@ -1,6 +1,7 @@
+'use client';
+
 import { AnimatePresence, motion } from 'framer-motion';
 import { FC, ReactNode } from 'react';
-import styles from './Modal.module.scss';
 
 interface ModalProps {
   isOpen: boolean;
@@ -27,21 +28,21 @@ export const Modal: FC<ModalProps> = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className={styles.modal}
+          className={'modal'}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={handleBackdropClick}
         >
           <motion.div
-            className={`${styles.modalContent} ${styles[size]}`}
+            className={`modalContent ${size}`}
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              className={styles.modalClose}
+              className={'modalClose'}
               onClick={onClose}
               aria-label="Закрыть"
             >

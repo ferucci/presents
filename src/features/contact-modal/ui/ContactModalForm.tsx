@@ -1,3 +1,5 @@
+'use client';
+
 import { useContactModal } from '@app/context/ContactModalContext';
 import { RootState } from '@app/store';
 import { submitFailure, submitStart, submitSuccess } from '@features/contact-form/model/contactSlice';

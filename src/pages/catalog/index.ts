@@ -1,4 +1,0 @@
-export { CatalogPage } from './CatalogPage';
-
-
-

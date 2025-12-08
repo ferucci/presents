@@ -1,22 +1,24 @@
+'use client';
+
 import { products } from '@entities/product';
 import { Button, Card } from '@shared/ui';
 import { motion } from 'framer-motion';
 import { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import styles from './Pricing.module.scss';
 
 export const Pricing: FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const MAX_DISPLAYED = 3;
   const displayedProducts = products.slice(0, MAX_DISPLAYED);
   const hasMore = products.length > MAX_DISPLAYED;
 
   const handleViewDetails = (index: number) => {
-    navigate(`/product/${index}`);
+    router.push(`/product/${index}`);
   };
 
   const handleShowMore = () => {
-    navigate('/catalog');
+    router.push('/catalog');
   };
 
   return (
