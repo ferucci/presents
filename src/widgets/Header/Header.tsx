@@ -1,19 +1,22 @@
+'use client';
+
 import { useNavigation } from '@/hooks/useNavigation';
 import { Button } from '@shared/ui';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { usePathname, useRouter } from 'next/navigation';
 import styles from './Header.module.scss';
 
 export const Header: FC = () => {
   const { about, services, documentation } = useNavigation();
 
   const [scrolled, setScrolled] = useState(false);
-  const location = useLocation();
-  const navigate = useNavigate();
+  const pathname = usePathname();
+  const router = useRouter();
 
-  const isHomePage = location.pathname === '/';
+  const isHomePage = pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,8 +29,8 @@ export const Header: FC = () => {
 
   const scrollToSection = (id: string) => {
     // Если не на главной странице - переходим на главную с якорем
-    if (location.pathname !== '/') {
-      navigate(`/#${id}`);
+    if (pathname !== '/') {
+      router.push(`/#${id}`);
       return;
     }
 
@@ -51,7 +54,7 @@ export const Header: FC = () => {
             <span className="gradient-text">First Present</span>
           </span>
         ) : (
-          <Link to="/" className={styles.logo}>
+          <Link href="/" className={styles.logo}>
             <span className="gradient-text">First Present</span>
           </Link>
         )}

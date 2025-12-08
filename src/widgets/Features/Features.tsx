@@ -1,3 +1,5 @@
+'use client';
+
 import { featuresData } from '@/data/features';
 import { Card } from '@shared/ui';
 import { motion } from 'framer-motion';

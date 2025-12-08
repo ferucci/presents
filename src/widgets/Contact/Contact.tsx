@@ -1,3 +1,5 @@
+'use client';
+
 import { ContactForm } from '@features/contact-form';
 import { motion } from 'framer-motion';
 import { FC } from 'react';

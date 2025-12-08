@@ -1,3 +1,5 @@
+'use client';
+
 import { privacyData } from '@/data/privacy';
 import { motion } from 'framer-motion';
 import { FC, useState } from 'react';
