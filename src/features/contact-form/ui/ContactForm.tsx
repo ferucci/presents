@@ -5,13 +5,21 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input } from '@shared/ui';
 import { handlePhoneInput } from '@shared/utils/phoneMask';
 import { motion } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 import { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { usePathname } from 'next/navigation';
 import { submitFailure, submitStart, submitSuccess } from '../model/contactSlice';
 import { ContactFormData, contactSchema } from '../model/validation';
 import styles from './ContactForm.module.scss';
+
+interface AxiosError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
 
 export const ContactForm: FC = () => {
   const dispatch = useDispatch();
@@ -56,8 +64,9 @@ export const ContactForm: FC = () => {
       } else {
         dispatch(submitFailure('Ошибка при отправке формы'));
       }
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.message || 'Ошибка при отправке формы. Попробуйте позже.';
+    } catch (err) {
+      const axiosError = err as AxiosError;
+      const errorMessage = axiosError.response?.data?.message || 'Ошибка при отправке формы. Попробуйте позже.';
       dispatch(submitFailure(errorMessage));
     }
   };

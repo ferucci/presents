@@ -3,14 +3,14 @@
 import { useNavigation } from '@/hooks/useNavigation';
 import { InfoDetails } from '@/widgets/InfoDetails/InfoDetails';
 import { useContactModal } from '@app/context/ContactModalContext';
+import { Product } from '@entities/product/model/types';
 import { ContactModalForm } from '@features/contact-modal';
+import { useApi } from '@hooks/useApi';
+import { productsApi } from '@shared/api';
 import { Button, ImageModal, ImageSlider } from '@shared/ui';
 import { motion } from 'framer-motion';
 import { useParams } from 'next/navigation';
-import { FC, useCallback, useState, useEffect } from 'react';
-import { useApi } from '@hooks/useApi';
-import { productsApi } from '@shared/api';
-import { Product } from '@entities/product/model/types';
+import { FC, useCallback, useState } from 'react';
 import styles from './ProductDetail.module.scss';
 
 const ProductDetailPage: FC = () => {
@@ -20,13 +20,13 @@ const ProductDetailPage: FC = () => {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [imageModalIndex, setImageModalIndex] = useState(0);
   const { catalog } = useNavigation();
-  
+
   // Загрузка всех продуктов для индексации
   const { data: productsData, loading: productsLoading } = useApi<Product[]>(
     () => productsApi.getAll(),
     []
   );
-  
+
   const products = productsData || [];
   const productIndex = id ? parseInt(id, 10) : -1;
   const product = products[productIndex];

@@ -1,14 +1,14 @@
 'use client';
 
 import { useContactModal } from '@app/context/ContactModalContext';
+import { Product } from '@entities/product/model/types';
 import { ContactModalForm } from '@features/contact-modal';
+import { useApi } from '@hooks/useApi';
+import { productsApi } from '@shared/api';
 import { Button, Card } from '@shared/ui';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { FC, useEffect, useMemo, useState } from 'react';
-import { useApi } from '@hooks/useApi';
-import { productsApi } from '@shared/api';
-import { Product } from '@entities/product/model/types';
 import styles from './Catalog.module.scss';
 
 const ITEMS_PER_PAGE = 4;
@@ -18,14 +18,17 @@ type SortOption = 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc' | 'popul
 const CatalogPage: FC = () => {
   const router = useRouter();
   const { isOpen, closeModal } = useContactModal();
-  
+
   // Загрузка продуктов из API
   const { data: productsData, loading, error } = useApi<Product[]>(
     () => productsApi.getAll(),
     []
   );
-  
-  const products = productsData || [];
+
+  const products = useMemo(() => {
+    return productsData ? productsData : [];
+  }, [productsData]);
+
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
@@ -67,7 +70,7 @@ const CatalogPage: FC = () => {
 
   const maxPrice = useMemo(() => {
     return Math.max(...products.map(p => p.priceValue || 0), 10000);
-  }, []);
+  }, [products]);
 
   // Инициализация диапазона цен
   useEffect(() => {
@@ -143,7 +146,7 @@ const CatalogPage: FC = () => {
     });
 
     return result;
-  }, [searchQuery, selectedColors, selectedAttributes, selectedFunctionality, priceRange, sortBy, showOnlyPopular]);
+  }, [searchQuery, products, selectedColors, selectedAttributes, selectedFunctionality, priceRange, sortBy, showOnlyPopular]);
 
   const displayedProducts = filteredProducts.slice(0, displayedCount);
   const hasMore = filteredProducts.length > displayedCount;

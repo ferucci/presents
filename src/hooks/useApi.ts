@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { DependencyList, useEffect, useRef, useState } from 'react';
 
 interface UseApiState<T> {
   data: T | null;
@@ -8,11 +8,19 @@ interface UseApiState<T> {
 
 export function useApi<T>(
   apiFunc: () => Promise<T>,
-  dependencies: any[] = []
+  dependencies: DependencyList = []
 ): UseApiState<T> {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Используем ref для хранения актуальной функции
+  const apiFuncRef = useRef(apiFunc);
+  apiFuncRef.current = apiFunc;
+
+  // Используем ref для хранения зависимостей
+  const depsRef = useRef(dependencies);
+  depsRef.current = dependencies;
 
   useEffect(() => {
     let isMounted = true;
@@ -21,14 +29,15 @@ export function useApi<T>(
       try {
         setLoading(true);
         setError(null);
-        const result = await apiFunc();
+        const result = await apiFuncRef.current();
 
         if (isMounted) {
           setData(result);
         }
-      } catch (err: any) {
+      } catch (err) {
         if (isMounted) {
-          setError(err.message || 'Произошла ошибка при загрузке данных');
+          const errorMessage = getErrorMessage(err);
+          setError(errorMessage);
           console.error('API Error:', err);
         }
       } finally {
@@ -43,8 +52,23 @@ export function useApi<T>(
     return () => {
       isMounted = false;
     };
-  }, dependencies);
+  }, [dependencies]); // ✅ Литерал массива с одним элементом
 
   return { data, loading, error };
 }
 
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  if (error && typeof error === 'object' && 'message' in error) {
+    return String(error.message);
+  }
+
+  if (typeof error === 'string') {
+    return error;
+  }
+
+  return 'Произошла ошибка при загрузке данных';
+}
