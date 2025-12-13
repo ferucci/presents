@@ -1,6 +1,6 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, MoreThan } from 'typeorm';
+import { MoreThan, Repository } from 'typeorm';
 import { ContactRequest } from './contact.entity';
 import { CreateContactDto } from './dto/create-contact.dto';
 
@@ -9,12 +9,12 @@ export class ContactService {
   constructor(
     @InjectRepository(ContactRequest)
     private readonly contactRepository: Repository<ContactRequest>,
-  ) {}
+  ) { }
 
   // Защита от спама: проверка количества заявок с одного email за последние 15 минут
   async checkSpam(email: string): Promise<void> {
     const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000);
-    
+
     const recentRequests = await this.contactRepository.count({
       where: {
         email,
@@ -50,7 +50,13 @@ export class ContactService {
   }
 
   async findOne(id: number): Promise<ContactRequest> {
-    return await this.contactRepository.findOne({ where: { id } });
+    const contact = await this.contactRepository.findOne({ where: { id } });
+
+    if (!contact) {
+      throw new NotFoundException(`Contact request with ID ${id} not found`);
+    }
+
+    return contact;
   }
 
   async updateStatus(id: number, status: string): Promise<ContactRequest> {
