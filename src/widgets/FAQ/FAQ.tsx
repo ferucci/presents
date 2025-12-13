@@ -1,16 +1,24 @@
 'use client';
 
 import { useContactModal } from '@/app/context/ContactModalContext';
-import { faqData } from '@/data/faq';
 import { ContactModalForm } from '@/features/contact-modal';
 import { Button } from '@/shared/ui';
 import { motion } from 'framer-motion';
 import { FC, useState } from 'react';
+import { useApi } from '@hooks/useApi';
+import { faqApi, Faq } from '@shared/api';
 import styles from './FAQ.module.scss';
 
 export const FAQ: FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const { isOpen, openModal, closeModal } = useContactModal();
+  
+  const { data: faqData, loading } = useApi<Faq[]>(
+    () => faqApi.getAll(),
+    []
+  );
+
+  const faqs = faqData || [];
 
   const toggleQuestion = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -31,8 +39,11 @@ export const FAQ: FC = () => {
           <p>Ответы на самые популярные вопросы о румбоксах</p>
         </motion.div>
 
-        <div className={styles.list}>
-          {faqData.map((item, index) => (
+        {loading ? (
+          <p style={{ textAlign: 'center', padding: '2rem' }}>Загрузка...</p>
+        ) : (
+          <div className={styles.list}>
+            {faqs.map((item, index) => (
             <motion.div
               key={index}
               className={styles.item}
@@ -66,8 +77,9 @@ export const FAQ: FC = () => {
                 <div className={styles.answerContent}>{item.answer}</div>
               </motion.div>
             </motion.div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         <motion.div
           className={styles.cta}

@@ -1,58 +1,15 @@
-import axios from 'axios';
+// Экспорт всех API сервисов
+export { apiClient, API_BASE_URL } from './config';
+export { productsApi } from './services/products.api';
+export { featuresApi } from './services/features.api';
+export { faqApi } from './services/faq.api';
+export { servicesApi } from './services/services.api';
+export { aboutApi } from './services/about.api';
+export { contactApi } from './services/contact.api';
 
-const API_URL = import.meta.env.VITE_API_URL || '/api';
-
-export const api = axios.create({
-  baseURL: API_URL,
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-// Интерцепторы для обработки запросов и ответов
-api.interceptors.request.use(
-  (config) => {
-    // Здесь можно добавить токен авторизации
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    // Обработка ошибок
-    console.error('API Error:', error);
-    return Promise.reject(error);
-  }
-);
-
-// Типы для API
-export interface ContactRequest {
-  name: string;
-  email: string;
-  phone?: string;
-  message: string;
-}
-
-export interface ContactResponse {
-  success: boolean;
-  message: string;
-}
-
-// API методы
-export const contactApi = {
-  submit: async (data: ContactRequest): Promise<ContactResponse> => {
-    const response = await api.post<ContactResponse>('/contact', data);
-    return response.data;
-  },
-};
-
-
-
-
+// Экспорт типов
+export type { Feature } from './services/features.api';
+export type { Faq } from './services/faq.api';
+export type { Service } from './services/services.api';
+export type { AboutStats, AboutTeam, AboutValues } from './services/about.api';
+export type { ContactResponse } from './services/contact.api';

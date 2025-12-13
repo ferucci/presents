@@ -43,18 +43,22 @@ export const ContactForm: FC = () => {
     dispatch(submitStart());
 
     try {
-      // Имитация отправки данных на сервер
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const { contactApi } = await import('@shared/api');
+      const response = await contactApi.submit(data);
 
-      console.log('Отправленные данные:', data);
-      dispatch(submitSuccess());
-      reset();
+      if (response.success) {
+        dispatch(submitSuccess());
+        reset();
 
-      setTimeout(() => {
-        dispatch(submitFailure(''));
-      }, 3000);
-    } catch (err) {
-      dispatch(submitFailure('Ошибка при отправке формы'));
+        setTimeout(() => {
+          dispatch(submitFailure(''));
+        }, 3000);
+      } else {
+        dispatch(submitFailure('Ошибка при отправке формы'));
+      }
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.message || 'Ошибка при отправке формы. Попробуйте позже.';
+      dispatch(submitFailure(errorMessage));
     }
   };
 

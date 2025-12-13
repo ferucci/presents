@@ -1,6 +1,6 @@
 import { Product } from '@entities/product';
 
-const BASE_URL = 'https://yourdomain.com';
+const BASE_URL = 'https://first-present.ru';
 
 export const generateOrganizationSchema = () => ({
   '@context': 'https://schema.org',

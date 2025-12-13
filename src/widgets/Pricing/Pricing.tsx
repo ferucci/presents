@@ -1,14 +1,22 @@
 'use client';
 
-import { products } from '@entities/product';
 import { Button, Card } from '@shared/ui';
 import { motion } from 'framer-motion';
 import { FC } from 'react';
 import { useRouter } from 'next/navigation';
+import { useApi } from '@hooks/useApi';
+import { productsApi } from '@shared/api';
+import { Product } from '@entities/product/model/types';
 import styles from './Pricing.module.scss';
 
 export const Pricing: FC = () => {
   const router = useRouter();
+  const { data: productsData, loading } = useApi<Product[]>(
+    () => productsApi.getAll(),
+    []
+  );
+  
+  const products = productsData || [];
   const MAX_DISPLAYED = 3;
   const displayedProducts = products.slice(0, MAX_DISPLAYED);
   const hasMore = products.length > MAX_DISPLAYED;
@@ -20,6 +28,16 @@ export const Pricing: FC = () => {
   const handleShowMore = () => {
     router.push('/catalog');
   };
+
+  if (loading) {
+    return (
+      <section id="pricing" className={styles.pricing}>
+        <div className={styles.container}>
+          <p style={{ textAlign: 'center', padding: '2rem' }}>Загрузка продуктов...</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="pricing" className={styles.pricing}>

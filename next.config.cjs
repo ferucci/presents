@@ -23,13 +23,14 @@ const nextConfig = {
       '@features': path.resolve(__dirname, './src/features'),
       '@entities': path.resolve(__dirname, './src/entities'),
       '@shared': path.resolve(__dirname, './src/shared'),
+      '@hooks': path.resolve(__dirname, './src/hooks'),
     };
     return config;
   },
 
   // Оптимизация изображений
   images: {
-    domains: ['yourdomain.com'], // Добавьте ваш домен
+    domains: ['first-present.ru'], // Добавьте ваш домен
     formats: ['image/avif', 'image/webp'],
   },
 
@@ -37,6 +38,9 @@ const nextConfig = {
   experimental: {
     optimizeCss: true,
   },
+
+  // Для Docker: создание standalone output
+  output: 'standalone',
 };
 
 module.exports = nextConfig;

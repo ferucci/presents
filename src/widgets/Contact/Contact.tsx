@@ -32,7 +32,7 @@ export const Contact: FC = () => {
               <div className={styles.infoIcon}>📧</div>
               <div>
                 <h4>Email</h4>
-                <p>info@premium.com</p>
+                <p>offers@usoltev.ru</p>
               </div>
             </div>
 
@@ -40,7 +40,7 @@ export const Contact: FC = () => {
               <div className={styles.infoIcon}>📞</div>
               <div>
                 <h4>Телефон</h4>
-                <p>+7 (999) 123-45-67</p>
+                <p>+7 (985) 165-55-85</p>
               </div>
             </div>
 
@@ -48,7 +48,7 @@ export const Contact: FC = () => {
               <div className={styles.infoIcon}>📍</div>
               <div>
                 <h4>Адрес</h4>
-                <p>Москва, ул. Примерная, д. 1</p>
+                <p>Красногорск, ул. Волоколамское шоссе, д. 3</p>
               </div>
             </div>
 
@@ -56,7 +56,7 @@ export const Contact: FC = () => {
               <div className={styles.infoIcon}>⏰</div>
               <div>
                 <h4>Режим работы</h4>
-                <p>Пн-Пт: 9:00 - 18:00</p>
+                <p>Пн-Пт: 9:00 - 21:00</p>
               </div>
             </div>
           </motion.div>

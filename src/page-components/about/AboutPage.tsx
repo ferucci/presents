@@ -5,13 +5,25 @@ import { ContactModalForm } from '@features/contact-modal';
 import { Button } from '@shared/ui';
 import { motion } from 'framer-motion';
 import { FC } from 'react';
+import { useApi } from '@hooks/useApi';
+import { aboutApi, AboutStats, AboutValues } from '@shared/api';
 import styles from './About.module.scss';
-
-import { adv } from '@/data/aboutPage/adv';
-import { values } from '@/data/aboutPage/values';
 
 const AboutPage: FC = () => {
   const { isOpen, openModal, closeModal } = useContactModal();
+  
+  const { data: statsData, loading: statsLoading } = useApi<AboutStats[]>(
+    () => aboutApi.stats.getAll(),
+    []
+  );
+  
+  const { data: valuesData, loading: valuesLoading } = useApi<AboutValues[]>(
+    () => aboutApi.values.getAll(),
+    []
+  );
+  
+  const adv = statsData || [];
+  const values = valuesData || [];
 
   return (
     <div className={styles.page}>
@@ -40,8 +52,11 @@ const AboutPage: FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
             >
-              <div className={styles.statsGrid}>
-                {adv.map((stat, index) => (
+              {statsLoading ? (
+                <p style={{ textAlign: 'center', padding: '2rem' }}>Загрузка...</p>
+              ) : (
+                <div className={styles.statsGrid}>
+                  {adv.map((stat, index) => (
                   <motion.div
                     key={index}
                     className={styles.statCard}
@@ -53,8 +68,9 @@ const AboutPage: FC = () => {
                     <div className={styles.statNumber}>{stat.number}</div>
                     <div className={styles.statLabel}>{stat.label}</div>
                   </motion.div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </motion.div>
 
             {/* История */}
@@ -92,8 +108,11 @@ const AboutPage: FC = () => {
               <h2>
                 Наши <span className="gradient-text">ценности</span>
               </h2>
-              <div className={styles.valuesGrid}>
-                {values.map((value, index) => (
+              {valuesLoading ? (
+                <p style={{ textAlign: 'center', padding: '2rem' }}>Загрузка...</p>
+              ) : (
+                <div className={styles.valuesGrid}>
+                  {values.map((value, index) => (
                   <motion.div
                     key={index}
                     className={styles.valueCard}
@@ -106,8 +125,9 @@ const AboutPage: FC = () => {
                     <h3>{value.title}</h3>
                     <p>{value.description}</p>
                   </motion.div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </motion.div>
 
             {/* Команда */}

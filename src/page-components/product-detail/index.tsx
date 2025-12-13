@@ -3,12 +3,14 @@
 import { useNavigation } from '@/hooks/useNavigation';
 import { InfoDetails } from '@/widgets/InfoDetails/InfoDetails';
 import { useContactModal } from '@app/context/ContactModalContext';
-import { products } from '@entities/product';
 import { ContactModalForm } from '@features/contact-modal';
 import { Button, ImageModal, ImageSlider } from '@shared/ui';
 import { motion } from 'framer-motion';
 import { useParams } from 'next/navigation';
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useState, useEffect } from 'react';
+import { useApi } from '@hooks/useApi';
+import { productsApi } from '@shared/api';
+import { Product } from '@entities/product/model/types';
 import styles from './ProductDetail.module.scss';
 
 const ProductDetailPage: FC = () => {
@@ -18,7 +20,14 @@ const ProductDetailPage: FC = () => {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [imageModalIndex, setImageModalIndex] = useState(0);
   const { catalog } = useNavigation();
-
+  
+  // Загрузка всех продуктов для индексации
+  const { data: productsData, loading: productsLoading } = useApi<Product[]>(
+    () => productsApi.getAll(),
+    []
+  );
+  
+  const products = productsData || [];
   const productIndex = id ? parseInt(id, 10) : -1;
   const product = products[productIndex];
 
@@ -35,9 +44,29 @@ const ProductDetailPage: FC = () => {
     setIsImageModalOpen(false);
   }, []);
 
+  if (productsLoading) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.container}>
+          <p style={{ textAlign: 'center', padding: '2rem' }}>Загрузка продукта...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!product) {
-    return null;
+    return (
+      <div className={styles.page}>
+        <div className={styles.container}>
+          <p style={{ textAlign: 'center', padding: '2rem' }}>Продукт не найден</p>
+          <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+            <Button onClick={() => window.location.href = '/catalog'}>
+              Вернуться в каталог
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

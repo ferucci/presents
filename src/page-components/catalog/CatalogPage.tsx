@@ -1,12 +1,14 @@
 'use client';
 
 import { useContactModal } from '@app/context/ContactModalContext';
-import { products } from '@entities/product';
 import { ContactModalForm } from '@features/contact-modal';
 import { Button, Card } from '@shared/ui';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { FC, useEffect, useMemo, useState } from 'react';
+import { useApi } from '@hooks/useApi';
+import { productsApi } from '@shared/api';
+import { Product } from '@entities/product/model/types';
 import styles from './Catalog.module.scss';
 
 const ITEMS_PER_PAGE = 4;
@@ -16,6 +18,14 @@ type SortOption = 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc' | 'popul
 const CatalogPage: FC = () => {
   const router = useRouter();
   const { isOpen, closeModal } = useContactModal();
+  
+  // Загрузка продуктов из API
+  const { data: productsData, loading, error } = useApi<Product[]>(
+    () => productsApi.getAll(),
+    []
+  );
+  
+  const products = productsData || [];
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
@@ -173,7 +183,33 @@ const CatalogPage: FC = () => {
   // Рекомендуемые товары (популярные, максимум 3)
   const recommendedProducts = useMemo(() => {
     return products.filter(p => p.popular).slice(0, 3);
-  }, []);
+  }, [products]);
+
+  // Отображение состояний загрузки и ошибок
+  if (loading) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.container}>
+          <div className={styles.loadingState}>
+            <p>Загрузка продуктов...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.container}>
+          <div className={styles.errorState}>
+            <p>Ошибка загрузки: {error}</p>
+            <Button onClick={() => window.location.reload()}>Попробовать снова</Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.page}>

@@ -1,13 +1,21 @@
 'use client';
 
-import { featuresData } from '@/data/features';
 import { Card } from '@shared/ui';
 import { motion } from 'framer-motion';
 import { FC } from 'react';
+import { useApi } from '@hooks/useApi';
+import { featuresApi, Feature } from '@shared/api';
 import styles from './Features.module.scss';
 
 
 export const Features: FC = () => {
+  const { data: featuresData, loading } = useApi<Feature[]>(
+    () => featuresApi.getAll(),
+    []
+  );
+
+  const features = featuresData || [];
+
   return (
     <section id="features" className={styles.features}>
       <div className={styles.background}>
@@ -30,8 +38,11 @@ export const Features: FC = () => {
           </p>
         </motion.div>
 
-        <div className={styles.grid}>
-          {featuresData.map((feature, index) => (
+        {loading ? (
+          <p style={{ textAlign: 'center', padding: '2rem' }}>Загрузка...</p>
+        ) : (
+          <div className={styles.grid}>
+            {features.map((feature, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}
@@ -45,8 +56,9 @@ export const Features: FC = () => {
                 <p>{feature.description}</p>
               </Card>
             </motion.div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

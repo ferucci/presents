@@ -1,16 +1,24 @@
 'use client';
 
-import { services } from '@/data/servicesPage';
 import { useContactModal } from '@app/context/ContactModalContext';
 import { ContactModalForm } from '@features/contact-modal';
 import { Button } from '@shared/ui';
 import { motion } from 'framer-motion';
 import { FC, useEffect, useRef } from 'react';
+import { useApi } from '@hooks/useApi';
+import { servicesApi, Service } from '@shared/api';
 import styles from './Services.module.scss';
 
 const ServicesPage: FC = () => {
   const { isOpen, openModal, closeModal } = useContactModal();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  
+  const { data: servicesData, loading } = useApi<Service[]>(
+    () => servicesApi.getAll(),
+    []
+  );
+  
+  const services = servicesData || [];
 
 
   useEffect(() => {
@@ -114,8 +122,11 @@ const ServicesPage: FC = () => {
             </motion.div>
 
             {/* Услуги */}
-            <div className={styles.servicesGrid}>
-              {services.map((service, index) => (
+            {loading ? (
+              <p style={{ textAlign: 'center', padding: '2rem' }}>Загрузка услуг...</p>
+            ) : (
+              <div className={styles.servicesGrid}>
+                {services.map((service, index) => (
                 <motion.div
                   key={index}
                   className={styles.serviceCard}
@@ -155,8 +166,9 @@ const ServicesPage: FC = () => {
                     </Button>
                   </div>
                 </motion.div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
 
             {/* Дополнительная информация */}
             <motion.div

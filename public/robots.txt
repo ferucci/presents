@@ -19,7 +19,7 @@ Allow: /documentation
 Allow: /product/
 
 # Sitemap
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://first-present.ru/sitemap.xml
 
 # Crawl-delay (опционально, если нужно ограничить частоту запросов)
 # Crawl-delay: 1

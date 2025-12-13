@@ -4,7 +4,9 @@ import { motion } from 'framer-motion';
 import { FC } from 'react';
 import styles from './FloatingTelegram.module.scss';
 
-const TELEGRAM_URL = 'https://t.me/your_telegram_username'; // Замените на ваш аккаунт
+// Получаем имя бота из переменных окружения или используем значение по умолчанию
+const TELEGRAM_BOT = process.env.NEXT_PUBLIC_TELEGRAM_BOT || 'your_bot_username';
+const TELEGRAM_URL = `https://t.me/${TELEGRAM_BOT}`;
 
 export const FloatingTelegram: FC = () => {
   return (

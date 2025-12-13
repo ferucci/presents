@@ -13,7 +13,7 @@ export interface SEOProps {
 const DEFAULT_TITLE = 'Румбоксы - Миниатюрные книжные конструкторы';
 const DEFAULT_DESCRIPTION = 'Премиальные румбоксы - миниатюрные книжные конструкторы для детей и взрослых. Создайте свой волшебный мир из любимых книг!';
 const DEFAULT_OG_IMAGE = '/images/products/products.jpg';
-const BASE_URL = 'https://yourdomain.com'; // Замените на ваш домен
+const BASE_URL = 'https://first-present.ru'; // Замените на ваш домен
 
 export const SEO: FC<SEOProps> = ({
   title,

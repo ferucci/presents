@@ -23,13 +23,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'ru_RU',
-    url: 'https://yourdomain.com',
+    url: 'https://first-present.ru',
     siteName: 'Румбоксы',
     title: 'Румбоксы - Миниатюрные книжные конструкторы',
     description: 'Премиальные румбоксы - миниатюрные книжные конструкторы для детей и взрослых',
     images: [
       {
-        url: 'https://yourdomain.com/images/products/products.jpg',
+        url: 'https://first-present.ru/images/products/products.jpg',
         width: 1200,
         height: 630,
         alt: 'Румбоксы',

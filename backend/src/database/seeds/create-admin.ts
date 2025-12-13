@@ -1,0 +1,63 @@
+import 'reflect-metadata';
+import { DataSource } from 'typeorm';
+import { typeOrmConfig } from '../../config/typeorm.config';
+import * as bcrypt from 'bcrypt';
+import { User, UserRole } from '../../modules/auth/entities/user.entity';
+
+async function createAdmin() {
+  const dataSource = new DataSource(typeOrmConfig as any);
+  
+  try {
+    await dataSource.initialize();
+    console.log('Подключение к БД успешно!');
+
+    // Синхронизация схемы (создание таблиц)
+    await dataSource.synchronize();
+    console.log('Схема БД синхронизирована!');
+
+    const userRepository = dataSource.getRepository(User);
+
+    // Проверяем, существует ли админ
+    const existingAdmin = await userRepository.findOne({
+      where: { username: 'admin' },
+    });
+
+    if (existingAdmin) {
+      console.log('Администратор уже существует!');
+      console.log('Username: admin');
+      await dataSource.destroy();
+      return;
+    }
+
+    // Создаем админа
+    const hashedPassword = await bcrypt.hash('admin123', 10);
+    
+    const admin = userRepository.create({
+      username: 'admin',
+      email: 'admin@example.com',
+      password: hashedPassword,
+      role: UserRole.ADMIN,
+      isActive: true,
+    });
+
+    await userRepository.save(admin);
+
+    console.log('\n✅ Администратор успешно создан!');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('Username: admin');
+    console.log('Password: admin123');
+    console.log('Email: admin@example.com');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('\n⚠️  ВАЖНО: Измените пароль после первого входа!');
+    console.log('\n📝 Для входа используйте endpoint: POST /api/auth/login');
+    console.log('   Body: { "username": "admin", "password": "admin123" }');
+
+    await dataSource.destroy();
+  } catch (error) {
+    console.error('Ошибка при создании администратора:', error);
+    process.exit(1);
+  }
+}
+
+createAdmin();
+
