@@ -43,8 +43,8 @@ services:
         condition: service_healthy
     environment:
       # Все переменные окружения бэкенда
-      NODE_ENV: ${NODE_ENV} # Режим работы
-      PORT: ${PORT} # Порт приложения внутри контейнера
+      NODE_ENV: production # Режим работы
+      PORT: 3001 # Порт приложения внутри контейнера
       # Параметры подключения к БД (берутся из общих переменных)
       DB_HOST: postgres # Имя сервиса как hostname (внутри сети Docker)
       DB_PORT: 5432 # Внутренний порт PostgreSQL
@@ -60,12 +60,12 @@ services:
       # если Dockerfile настроен на их копирование
     ports:
       # Проброс порта API наружу
-      - "${PORT}:3001"
+      - "3001:3001"
     networks:
       - app-network
     healthcheck:
       # Проверка здоровья API (проверяет endpoint /products)
-      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:${PORT}/products" ]
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/products" ]
       interval: 30s
       timeout: 10s
       retries: 3

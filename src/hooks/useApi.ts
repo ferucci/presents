@@ -52,7 +52,7 @@ export function useApi<T>(
     return () => {
       isMounted = false;
     };
-  }, [dependencies]); // ✅ Литерал массива с одним элементом
+  }, []);
 
   return { data, loading, error };
 }
