@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -14,6 +18,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "plugins": [
       {
         "name": "next"
@@ -21,16 +27,39 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@app/*": ["./src/app/*"],
-      "@pages/*": ["./src/page-components/*"],
-      "@widgets/*": ["./src/widgets/*"],
-      "@features/*": ["./src/features/*"],
-      "@entities/*": ["./src/entities/*"],
-      "@shared/*": ["./src/shared/*"],
-      "@hooks/*": ["./src/hooks/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@app/*": [
+        "./src/app/*"
+      ],
+      "@pages/*": [
+        "./src/page-components/*"
+      ],
+      "@widgets/*": [
+        "./src/widgets/*"
+      ],
+      "@features/*": [
+        "./src/features/*"
+      ],
+      "@entities/*": [
+        "./src/entities/*"
+      ],
+      "@shared/*": [
+        "./src/shared/*"
+      ],
+      "@hooks/*": [
+        "./src/hooks/*"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

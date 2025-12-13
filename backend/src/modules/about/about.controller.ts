@@ -1,16 +1,16 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, ParseIntPipe } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
-import { AboutService } from './about.service';
-import { CreateAboutStatsDto, CreateAboutTeamDto, CreateAboutValuesDto } from './dto/about.dto';
-import { AboutStats, AboutTeam, AboutValues } from './about.entity';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from '../auth/decorators/public.decorator';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../auth/entities/user.entity';
+import { AboutStats, AboutTeam, AboutValues } from './about.entity';
+import { AboutService } from './about.service';
+import { CreateAboutStatsDto, CreateAboutTeamDto, CreateAboutValuesDto } from './dto/about.dto';
 
 @ApiTags('about')
 @Controller('about')
 export class AboutController {
-  constructor(private readonly aboutService: AboutService) {}
+  constructor(private readonly aboutService: AboutService) { }
 
   // Stats endpoints
   @Public()
