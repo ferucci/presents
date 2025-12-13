@@ -1,18 +1,18 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/typeorm.config';
-import { AuthModule } from './modules/auth/auth.module';
-import { ProductsModule } from './modules/products/products.module';
-import { FeaturesModule } from './modules/features/features.module';
-import { FaqModule } from './modules/faq/faq.module';
-import { ServicesModule } from './modules/services/services.module';
 import { AboutModule } from './modules/about/about.module';
-import { ContactModule } from './modules/contact/contact.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
 import { RolesGuard } from './modules/auth/guards/roles.guard';
+import { ContactModule } from './modules/contact/contact.module';
+import { FaqModule } from './modules/faq/faq.module';
+import { FeaturesModule } from './modules/features/features.module';
+import { ProductsModule } from './modules/products/products.module';
+import { ServicesModule } from './modules/services/services.module';
 
 @Module({
   imports: [
@@ -27,8 +27,8 @@ import { RolesGuard } from './modules/auth/guards/roles.guard';
 
     // Защита от DDoS - Rate Limiting
     ThrottlerModule.forRoot([{
-      ttl: parseInt(process.env.THROTTLE_TTL) || 60000, // 60 секунд
-      limit: parseInt(process.env.THROTTLE_LIMIT) || 100, // 100 запросов
+      ttl: parseInt(process.env.THROTTLE_TTL || '60000'), // 60 секунд
+      limit: parseInt(process.env.THROTTLE_LIMIT || '100'), // 100 запросов
     }]),
 
     // Аутентификация
@@ -60,5 +60,5 @@ import { RolesGuard } from './modules/auth/guards/roles.guard';
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }
 
