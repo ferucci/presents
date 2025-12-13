@@ -1,15 +1,16 @@
-import { Controller, Post, Body, Get, UseGuards, Request } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
+import { Public } from './decorators/public.decorator';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { User } from './entities/user.entity';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { Public } from './decorators/public.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @Public()
   @Post('register')
@@ -35,7 +36,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Получить профиль текущего пользователя' })
   @ApiResponse({ status: 200, description: 'Профиль получен' })
   @ApiResponse({ status: 401, description: 'Не авторизован' })
-  async getProfile(@Request() req) {
+  async getProfile(@Request() req: { user: User }) {
     return {
       id: req.user.id,
       username: req.user.username,
