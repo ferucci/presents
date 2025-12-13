@@ -1,53 +1,71 @@
 services:
   # PostgreSQL Database
   postgres:
-    image: postgres:16-alpine
-    container_name: first_present_postgres
-    restart: always
+    image: postgres:16-alpine # Используем легковесный Alpine образ PostgreSQL 16
+    container_name: first_present_postgres # Имя контейнера
+    restart: always # Всегда перезапускать контейнер при сбоях
+    env_file:
+      - ./backend/.env
     environment:
-      POSTGRES_USER: ${DB_USERNAME:-first_user}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-Progress01100}
-      POSTGRES_DB: ${DB_DATABASE:-fpdb}
+      POSTGRES_USER: ${DB_USERNAME} # Имя пользователя БД
+      POSTGRES_PASSWORD: ${DB_PASSWORD} # Пароль пользователя БД
+      POSTGRES_DB: ${DB_DATABASE} # Имя базы данных
     ports:
-      - "${DB_PORT:-5432}:5432"
+      # Проброс порта: внешний порт -> внутренний порт контейнера
+      - "${DB_PORT}:5432" # Порт БД
     volumes:
+      # Постоянное хранилище для данных БД
       - postgres_data:/var/lib/postgresql/data
+      # SQL скрипт для инициализации БД (если нужен)
       - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME:-first_user}" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      # Проверка здоровья контейнера БД
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME}" ]
+      interval: 10s # Интервал проверки
+      timeout: 5s # Таймаут проверки
+      retries: 5 # Количество попыток
     networks:
+      # Подключение к внутренней сети
       - app-network
 
   # Backend NestJS API
   backend:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: ./backend # Путь к папке с Dockerfile бэкенда
+      dockerfile: Dockerfile # Имя Dockerfile
     container_name: first_present_backend
     restart: always
+    env_file:
+      - ./backend/.env
     depends_on:
+      # Зависимость от PostgreSQL, запускается только после успешного healthcheck
       postgres:
         condition: service_healthy
     environment:
-      NODE_ENV: production
-      PORT: 3001
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_USERNAME: ${DB_USERNAME:-first_user}
-      DB_PASSWORD: ${DB_PASSWORD:-Progress01100}
-      DB_DATABASE: ${DB_DATABASE:-fpdb}
-      CORS_ORIGIN: ${FRONTEND_URL:-http://localhost:3000}
+      # Все переменные окружения бэкенда
+      NODE_ENV: ${NODE_ENV} # Режим работы
+      PORT: ${PORT} # Порт приложения внутри контейнера
+      # Параметры подключения к БД (берутся из общих переменных)
+      DB_HOST: postgres # Имя сервиса как hostname (внутри сети Docker)
+      DB_PORT: 5432 # Внутренний порт PostgreSQL
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      # CORS настройки
+      CORS_ORIGIN: ${FRONTEND_URL}
+      # Настройки rate limiting
       THROTTLE_TTL: 60
       THROTTLE_LIMIT: 100
+      # Дополнительные переменные из backend/.env будут загружены автоматически
+      # если Dockerfile настроен на их копирование
     ports:
-      - "3001:3001"
+      # Проброс порта API наружу
+      - "${DB_PORT}::3001"
     networks:
       - app-network
     healthcheck:
-      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/products" ]
+      # Проверка здоровья API (проверяет endpoint /products)
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:${PORT}/products" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -55,20 +73,23 @@ services:
   # Frontend Next.js
   frontend:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: . # Контекст сборки - корневая папка проекта
+      dockerfile: Dockerfile # Dockerfile для фронтенда (должен быть в корне)
       args:
-        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001}
-        NEXT_PUBLIC_TELEGRAM_BOT: ${NEXT_PUBLIC_TELEGRAM_BOT:-your_bot_username}
+        # Аргументы сборки для Next.js (используются во время сборки)
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+        NEXT_PUBLIC_TELEGRAM_BOT: ${NEXT_PUBLIC_TELEGRAM_BOT}
     container_name: first_present_frontend
     restart: always
     depends_on:
-      - backend
+      - backend # Зависит от бэкенда
     environment:
+      # Переменные окружения для runtime фронтенда
       NODE_ENV: production
-      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001}
-      NEXT_PUBLIC_TELEGRAM_BOT: ${NEXT_PUBLIC_TELEGRAM_BOT:-your_bot_username}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      NEXT_PUBLIC_TELEGRAM_BOT: ${NEXT_PUBLIC_TELEGRAM_BOT}
     ports:
+      # Порт для доступа к фронтенду
       - "3000:3000"
     networks:
       - app-network
@@ -76,23 +97,29 @@ services:
   # Telegram Bot
   telegram-bot:
     build:
-      context: ./telegram-bot
+      context: ./telegram-bot # Папка с телеграм ботом
       dockerfile: Dockerfile
     container_name: first_present_telegram_bot
     restart: always
+    env_file:
+      - ./telegram-bot/.env
     depends_on:
-      - backend
+      - backend # Зависит от бэкенда
     environment:
+      # Переменные окружения бота
       NODE_ENV: production
-      BOT_TOKEN: ${BOT_TOKEN}
-      API_URL: http://backend:3001
+      BOT_TOKEN: ${BOT_TOKEN} # Секретный токен бота
+      API_URL: ${API_URL} # Внутренний URL к API
+      # Остальные переменные из telegram-bot/.env будут загружены через Dockerfile
     networks:
       - app-network
 
+# Определение томов для постоянного хранения данных
 volumes:
   postgres_data:
+    # Том для хранения данных PostgreSQL
 
-
+    # Определение сетей
 networks:
   app-network:
-    driver: bridge
+    driver: bridge # Используем bridge network для изоляции контейнеров
