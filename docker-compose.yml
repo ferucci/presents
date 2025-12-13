@@ -52,7 +52,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: ${DB_DATABASE}
       # CORS настройки
-      CORS_ORIGIN: ${FRONTEND_URL}
+      CORS_ORIGIN: ${CORS_ORIGIN}
       # Настройки rate limiting
       THROTTLE_TTL: 60
       THROTTLE_LIMIT: 100
