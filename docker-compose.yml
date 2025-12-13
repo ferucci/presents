@@ -60,7 +60,7 @@ services:
       # если Dockerfile настроен на их копирование
     ports:
       # Проброс порта API наружу
-      - "${DB_PORT}:3001"
+      - "${PORT}:3001"
     networks:
       - app-network
     healthcheck:
