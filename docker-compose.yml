@@ -109,7 +109,7 @@ services:
       # Переменные окружения бота
       NODE_ENV: production
       BOT_TOKEN: ${BOT_TOKEN} # Секретный токен бота
-      API_URL: ${API_URL} # Внутренний URL к API
+      API_URL: ${INNER_API_URL} # Внутренний URL к API
       # Остальные переменные из telegram-bot/.env будут загружены через Dockerfile
     networks:
       - app-network
