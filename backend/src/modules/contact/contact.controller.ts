@@ -1,41 +1,56 @@
-import { Controller, Get, Post, Put, Body, Param, ParseIntPipe } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
+import { BadRequestException, Body, Controller, Get, Headers, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { ApiBearerAuth, ApiHeader, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
-import { ContactService } from './contact.service';
-import { CreateContactDto } from './dto/create-contact.dto';
-import { ContactRequest } from './contact.entity';
 import { Public } from '../auth/decorators/public.decorator';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../auth/entities/user.entity';
+import { ContactRequest } from './contact.entity';
+import { ContactService } from './contact.service';
+import { CreateContactDto } from './dto/create-contact.dto';
 
 @ApiTags('contact')
 @Controller('contact')
 export class ContactController {
-  constructor(private readonly contactService: ContactService) {}
+  constructor(private readonly contactService: ContactService) { }
 
   @Public()
   @Post()
   @Throttle({ default: { limit: 5, ttl: 60000 } }) // 5 запросов в минуту
   @ApiOperation({ summary: 'Отправить заявку (публичный)' })
-  @ApiResponse({ 
-    status: 201, 
+  @ApiHeader({
+    name: 'X-Telegram-ChatId',
+    description: 'ID чата Telegram (только для заявок из Telegram)',
+    required: false,
+  })
+  @ApiResponse({
+    status: 201,
     description: 'Заявка успешно отправлена',
-    type: ContactRequest 
+    type: ContactRequest
   })
-  @ApiResponse({ 
-    status: 400, 
-    description: 'Некорректные данные или превышен лимит заявок' 
+  @ApiResponse({
+    status: 400,
+    description: 'Некорректные данные или превышен лимит заявок'
   })
-  @ApiResponse({ 
-    status: 429, 
-    description: 'Слишком много запросов. Попробуйте позже.' 
+  @ApiResponse({
+    status: 429,
+    description: 'Слишком много запросов. Попробуйте позже.'
   })
-  async create(@Body() createContactDto: CreateContactDto): Promise<{
+  async create(
+    @Body() createContactDto: CreateContactDto,
+    @Headers('X-Telegram-ChatId') telegramChatId?: string,
+  ): Promise<{
     success: boolean;
     message: string;
     data?: ContactRequest;
   }> {
-    const request = await this.contactService.create(createContactDto);
+    // Проверяем, что для телеграм-заявок chatId обязателен
+    if (createContactDto.email === 'telegram@bot.com' && !telegramChatId) {
+      throw new BadRequestException(
+        'Для Telegram-заявок обязателен заголовок X-Telegram-ChatId'
+      );
+    }
+
+    const request = await this.contactService.create(createContactDto, telegramChatId);
     return {
       success: true,
       message: 'Спасибо! Мы свяжемся с вами в ближайшее время.',

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('contact_requests')
 export class ContactRequest {
@@ -23,10 +23,10 @@ export class ContactRequest {
   @Column({ type: 'varchar', length: 255, nullable: true })
   productName: string;
 
-  @Column({ 
-    type: 'enum', 
+  @Column({
+    type: 'enum',
     enum: ['new', 'processing', 'completed', 'cancelled'],
-    default: 'new' 
+    default: 'new'
   })
   status: string;
 
