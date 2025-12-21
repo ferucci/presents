@@ -48,8 +48,7 @@ async function createAdmin() {
     console.log('Password: process.env.ADM_PASS');
     console.log('Email: process.env.ADM_EMAIL');
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log('\n⚠️  ВАЖНО: Измените пароль после первого входа!');
-    console.log('\n📝 Для входа используйте endpoint: POST /api/auth/login');
+    console.log('\n📝 Для входа используется endpoint: POST /api/auth/login');
     console.log('   Body: { "username": "process.env.ADM_USER", "password": "process.env.ADM_PASS" }');
 
     await dataSource.destroy();
