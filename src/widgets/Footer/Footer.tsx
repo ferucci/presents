@@ -1,6 +1,7 @@
 'use client';
 
 import { useNavigation } from '@/hooks/useNavigation';
+import { TELEGRAM_URL } from '@/shared/utils/vars';
 import { FC } from 'react';
 import styles from './Footer.module.scss';
 
@@ -29,7 +30,7 @@ export const Footer: FC = () => {
           <div className={styles.column}>
             <h5>Соцсети</h5>
             <ul>
-              <li><a href="#">Telegram</a></li>
+              <li><a href={TELEGRAM_URL}>Telegram</a></li>
             </ul>
           </div>
 
