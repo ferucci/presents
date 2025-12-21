@@ -1,17 +1,6 @@
-import axios from 'axios';
 import TelegramBot from 'node-telegram-bot-api';
-
-const API_URL = process.env.API_URL || 'http://localhost:3001';
-
-interface Product {
-  id: number;
-  name: string;
-  price: string;
-  priceValue: number;
-  images: string[];
-  features: string[];
-  popular: boolean;
-}
+import { getProduct, getProducts } from '../shared/api';
+import { Product } from '../shared/types';
 
 export async function handleProducts(bot: TelegramBot, msg: TelegramBot.Message) {
   const chatId = msg.chat.id;
@@ -21,9 +10,7 @@ export async function handleProducts(bot: TelegramBot, msg: TelegramBot.Message)
   );
   try {
 
-
-    const response = await axios.get<Product[]>(`${API_URL}/products`);
-    const products = response.data;
+    const products = await getProducts()
 
     if (products.length === 0) {
       bot.sendMessage(chatId, '😔 К сожалению, товары временно недоступны.');
@@ -79,8 +66,8 @@ ${features}
 
 export async function handleProductDetails(bot: TelegramBot, chatId: number, productId: number) {
   try {
-    const response = await axios.get<Product>(`${API_URL}/products/${productId}`);
-    const product = response.data;
+
+    const product = await getProduct(productId);
 
     const features = product.features.map(f => `  ✓ ${f}`).join('\n');
     const message = `

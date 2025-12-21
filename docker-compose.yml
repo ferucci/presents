@@ -20,7 +20,7 @@ services:
       - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       # Проверка здоровья контейнера БД
-      test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME}" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}" ]
       interval: 10s # Интервал проверки
       timeout: 5s # Таймаут проверки
       retries: 5 # Количество попыток

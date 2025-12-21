@@ -1,4 +1,5 @@
 import TelegramBot from 'node-telegram-bot-api';
+import { getProduct } from '../shared/api';
 import { getArticleService } from './articles';
 import { showFAQ, showGiftSelection } from './faq';
 import { cancelOrder, confirmOrder, startOrderProcess } from './order';
@@ -45,12 +46,24 @@ export async function handleCallbackQuery(bot: TelegramBot, query: TelegramBot.C
     }
     else if (data.startsWith('order_')) {
       const productId = parseInt(data.split('_')[1]);
-      // Получаем название продукта (в реальности нужно запросить из API)
-      bot.sendMessage(chatId, '⏳ Загружаю информацию о товаре...');
+      // Логи, дальше заменить на анимацию
+      const tempMessage = await bot.sendMessage(chatId, '⏳ Загружаю информацию о товаре...');
 
-      // Здесь можно добавить запрос к API для получения названия продукта
-      const productName = `Товар #${productId}`;
-      startOrderProcess(bot, chatId, productId, productName);
+      try {
+        // Здесь можно добавить запрос к API для получения названия продукта
+        const res = await getProduct(productId);
+        const productName = res.name;
+        startOrderProcess(bot, chatId, productId, productName);
+        // Удаляем сообщение о загрузке при успехе
+        await bot.deleteMessage(chatId, tempMessage.message_id).catch(() => { });
+      } catch (error) {
+        console.error('Ошибка загрузки товара:', error);
+        // Удаляем сообщение о загрузке
+        await bot.deleteMessage(chatId, tempMessage.message_id).catch(() => { });
+        bot.sendMessage(chatId, '❌ Ошибка загрузки товара. Попробуйте позже.');
+      }
+
+
     }
     else if (data === 'confirm_order') {
       confirmOrder(bot, chatId);

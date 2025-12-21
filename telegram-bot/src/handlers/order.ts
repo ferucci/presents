@@ -1,5 +1,5 @@
-import TelegramBot from 'node-telegram-bot-api';
 import axios from 'axios';
+import TelegramBot from 'node-telegram-bot-api';
 
 const API_URL = process.env.API_URL || 'http://localhost:3001';
 
@@ -19,7 +19,7 @@ export function handleOrder(bot: TelegramBot, msg: TelegramBot.Message) {
 
   if (!session) {
     // Если нет активной сессии, предлагаем выбрать товар
-    bot.sendMessage(chatId, 
+    bot.sendMessage(chatId,
       'Для оформления заказа сначала выберите товар командой /products',
       {
         reply_markup: {
@@ -36,14 +36,14 @@ export function handleOrder(bot: TelegramBot, msg: TelegramBot.Message) {
   if (session.step === 'name') {
     session.name = msg.text;
     session.step = 'phone';
-    bot.sendMessage(chatId, 
+    bot.sendMessage(chatId,
       '📱 Отлично! Теперь укажите ваш номер телефона:\n\n' +
       'Например: +7 999 123-45-67'
     );
   } else if (session.step === 'phone') {
     session.phone = msg.text;
     session.step = 'confirm';
-    
+
     const confirmMessage = `
 ✅ *Проверьте ваш заказ:*
 
@@ -75,7 +75,7 @@ export function startOrderProcess(bot: TelegramBot, chatId: number, productId: n
     step: 'name',
   });
 
-  bot.sendMessage(chatId, 
+  bot.sendMessage(chatId,
     `🛒 *Оформление заказа*\n\n` +
     `Товар: *${productName}*\n\n` +
     `👤 Как вас зовут?`,
@@ -85,7 +85,7 @@ export function startOrderProcess(bot: TelegramBot, chatId: number, productId: n
 
 export async function confirmOrder(bot: TelegramBot, chatId: number) {
   const session = orderSessions.get(chatId);
-
+  console.log('session in the order.ts==========', session)
   if (!session || !session.name || !session.phone) {
     bot.sendMessage(chatId, '❌ Ошибка: данные заказа не найдены.');
     return;
@@ -102,7 +102,7 @@ export async function confirmOrder(bot: TelegramBot, chatId: number) {
       pageSource: 'Telegram Bot',
     });
 
-    bot.sendMessage(chatId, 
+    bot.sendMessage(chatId,
       '🎉 *Заказ успешно оформлен!*\n\n' +
       `Наш менеджер свяжется с вами в ближайшее время по телефону: ${session.phone}\n\n` +
       `Спасибо за ваш заказ! 💝`,
@@ -126,7 +126,7 @@ export async function confirmOrder(bot: TelegramBot, chatId: number) {
 
   } catch (error) {
     console.error('Ошибка отправки заказа:', error);
-    bot.sendMessage(chatId, 
+    bot.sendMessage(chatId,
       '❌ К сожалению, произошла ошибка при отправке заказа.\n\n' +
       'Пожалуйста, свяжитесь с нами напрямую:\n' +
       '📞 +7 (985) 165-55-85\n' +
