@@ -85,21 +85,25 @@ export function startOrderProcess(bot: TelegramBot, chatId: number, productId: n
 
 export async function confirmOrder(bot: TelegramBot, chatId: number) {
   const session = orderSessions.get(chatId);
-  console.log('session in the order.ts==========', session)
+
   if (!session || !session.name || !session.phone) {
     bot.sendMessage(chatId, '❌ Ошибка: данные заказа не найдены.');
     return;
   }
 
   try {
-    // Отправляем заявку на backend
+    // Отправляем заявку на backend с chatId в заголовке
     await axios.post(`${API_URL}/contact`, {
       name: session.name,
       phone: session.phone,
-      email: 'telegram@bot.com', // Для telegram заказов
+      email: 'telegram@bot.com',
       message: `Заказ через Telegram бота: ${session.productName}`,
       productName: session.productName,
       pageSource: 'Telegram Bot',
+    }, {
+      headers: {
+        'X-Telegram-ChatId': chatId.toString(), // Добавляем chatId в заголовок
+      }
     });
 
     bot.sendMessage(chatId,
@@ -124,14 +128,26 @@ export async function confirmOrder(bot: TelegramBot, chatId: number) {
       });
     }, 2000);
 
-  } catch (error) {
-    console.error('Ошибка отправки заказа:', error);
-    bot.sendMessage(chatId,
-      '❌ К сожалению, произошла ошибка при отправке заказа.\n' +
-      'Возможно предоставлены не валидные данные.\n\n' +
-      'Пожалуйста, свяжитесь с нами напрямую:\n' +
+  } catch (error: any) {
+    console.error('Ошибка отправки заказа:', error.response?.data || error.message);
+
+    // Пользовательские сообщения об ошибках
+    let errorMessage = '❌ К сожалению, произошла ошибка при отправке заказа.';
+
+    if (error.response?.status === 400) {
+      // Если это ошибка спама, показываем дружелюбное сообщение
+      if (error.response.data?.message?.includes('Слишком много заявок')) {
+        errorMessage = `⚠️ *Слишком много запросов*\n\nВы отправили несколько заявок подряд. Пожалуйста, подождите 15 минут перед следующей заявкой.`;
+      } else {
+        errorMessage = `❌ ${error.response.data?.message || 'Некорректные данные'}`;
+      }
+    }
+
+    bot.sendMessage(chatId, errorMessage +
+      '\n\nЕсли проблема повторяется, свяжитесь с нами напрямую:\n' +
       '📞 +7 (985) 165-55-85\n' +
-      '📧 offers@usoltev.ru'
+      '📧 offers@usoltev.ru',
+      { parse_mode: 'Markdown' }
     );
   }
 }
