@@ -1,12 +1,12 @@
+import * as bcrypt from 'bcrypt';
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import { typeOrmConfig } from '../../config/typeorm.config';
-import * as bcrypt from 'bcrypt';
 import { User, UserRole } from '../../modules/auth/entities/user.entity';
 
 async function createAdmin() {
   const dataSource = new DataSource(typeOrmConfig as any);
-  
+
   try {
     await dataSource.initialize();
     console.log('Подключение к БД успешно!');
@@ -19,22 +19,22 @@ async function createAdmin() {
 
     // Проверяем, существует ли админ
     const existingAdmin = await userRepository.findOne({
-      where: { username: 'admin' },
+      where: { username: process.env.ADM_USER },
     });
 
     if (existingAdmin) {
       console.log('Администратор уже существует!');
-      console.log('Username: admin');
       await dataSource.destroy();
       return;
     }
 
+    const password = process.env.ADM_PASS;
     // Создаем админа
-    const hashedPassword = await bcrypt.hash('admin123', 10);
-    
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const admin = userRepository.create({
-      username: 'admin',
-      email: 'admin@example.com',
+      username: process.env.ADM_USER,
+      email: process.env.ADM_EMAIL,
       password: hashedPassword,
       role: UserRole.ADMIN,
       isActive: true,
@@ -44,13 +44,13 @@ async function createAdmin() {
 
     console.log('\n✅ Администратор успешно создан!');
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log('Username: admin');
-    console.log('Password: admin123');
-    console.log('Email: admin@example.com');
+    console.log('Username: process.env.ADM_USER');
+    console.log('Password: process.env.ADM_PASS');
+    console.log('Email: process.env.ADM_EMAIL');
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
     console.log('\n⚠️  ВАЖНО: Измените пароль после первого входа!');
     console.log('\n📝 Для входа используйте endpoint: POST /api/auth/login');
-    console.log('   Body: { "username": "admin", "password": "admin123" }');
+    console.log('   Body: { "username": "process.env.ADM_USER", "password": "process.env.ADM_PASS" }');
 
     await dataSource.destroy();
   } catch (error) {
