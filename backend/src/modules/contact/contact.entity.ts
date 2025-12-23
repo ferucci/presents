@@ -30,6 +30,9 @@ export class ContactRequest {
   })
   status: string;
 
+  @Column({ type: 'text', nullable: true })
+  topic: string | null;
+
   @CreateDateColumn()
   createdAt: Date;
 }

@@ -13,6 +13,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ContactModalFormData, contactModalSchema, contactTopics } from '../model/validation';
 import styles from './ContactModalForm.module.scss';
 
+interface AxiosError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
 interface ContactModalFormProps {
   isOpen: boolean;
   onClose: () => void;
@@ -50,19 +58,23 @@ export const ContactModalForm: FC<ContactModalFormProps> = ({ isOpen, onClose })
     dispatch(submitStart());
 
     try {
-      // Имитация отправки данных на сервер
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const { contactApi } = await import('@shared/api');
+      const response = await contactApi.submit(data);
 
-      console.log('Отправленные данные:', data);
-      dispatch(submitSuccess());
-      reset();
+      if (response.success) {
+        dispatch(submitSuccess());
+        reset();
 
-      setTimeout(() => {
-        dispatch(submitFailure(''));
-        onClose();
-      }, 2000);
+        setTimeout(() => {
+          dispatch(submitFailure(''));
+        }, 3000);
+      } else {
+        dispatch(submitFailure('Ошибка при отправке формы'));
+      }
     } catch (err) {
-      dispatch(submitFailure('Ошибка при отправке формы'));
+      const axiosError = err as AxiosError;
+      const errorMessage = axiosError.response?.data?.message || 'Ошибка при отправке формы. Попробуйте позже.';
+      dispatch(submitFailure(errorMessage));
     }
   };
 

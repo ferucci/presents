@@ -35,5 +35,14 @@ export class CreateContactDto {
   @IsString()
   @IsOptional()
   productName?: string;
+
+  @ApiPropertyOptional({
+    description: 'Тема сообщения',
+    example: 'Заказ румбокса',
+    nullable: true  // Добавляем nullable для Swagger
+  })
+  @IsOptional()  // Делаем поле необязательным
+  @IsString({ message: 'Тема должна быть строкой' })
+  topic?: string | null;
 }
 
