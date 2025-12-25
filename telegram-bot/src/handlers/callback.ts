@@ -50,7 +50,6 @@ export async function handleCallbackQuery(bot: TelegramBot, query: TelegramBot.C
       const tempMessage = await bot.sendMessage(chatId, '⏳ Загружаю информацию о товаре...');
 
       try {
-        // Здесь можно добавить запрос к API для получения названия продукта
         const res = await getProduct(productId);
         const productName = res.name;
         startOrderProcess(bot, chatId, productId, productName);
