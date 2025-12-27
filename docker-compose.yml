@@ -15,7 +15,7 @@ services:
       - "${DB_PORT}:5432" # Порт БД
     volumes:
       # Постоянное хранилище для данных БД
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:${DB_DATA}
       # SQL скрипт для инициализации БД (если нужен)
       - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
@@ -73,7 +73,7 @@ services:
   # Frontend Next.js
   frontend:
     build:
-      context: . # Контекст сборки - корневая папка проекта
+      context: ./frontend # Контекст сборки - корневая папка проекта
       dockerfile: Dockerfile # Dockerfile для фронтенда (должен быть в корне)
       args:
         # Аргументы сборки для Next.js (используются во время сборки)

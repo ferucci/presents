@@ -1,5 +1,0 @@
-export { Footer } from './Footer';
-
-
-
-

@@ -1,5 +1,0 @@
-export { Pricing } from './Pricing';
-
-
-
-

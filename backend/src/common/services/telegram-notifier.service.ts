@@ -19,7 +19,11 @@ export class TelegramNotifierService implements OnModuleInit {
   constructor(private readonly configService: ConfigService) { }
 
   onModuleInit() {
-    this.botToken = this.configService.get<string>('TELEGRAM_BOT_TOKEN');
+    const botToken = this.configService.get<string>('TELEGRAM_BOT_TOKEN');
+    if (!botToken) {
+      throw new Error('TELEGRAM_BOT_TOKEN is not defined');
+    }
+    this.botToken = botToken;
     const chatIds = this.configService.get<string>('TELEGRAM_ADMIN_CHAT_IDS');
 
     if (this.botToken && chatIds) {
@@ -51,7 +55,8 @@ export class TelegramNotifierService implements OnModuleInit {
       this.logger.log(`Notification sent to chat ${chatId}`);
       return response.data.ok;
     } catch (error) {
-      this.logger.error(`Failed to send Telegram notification to ${chatId}:`, error.message);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Failed to send Telegram notification to ${chatId}:`, errorMessage);
       return false;
     }
   }

@@ -13,11 +13,12 @@ FROM node:20-alpine AS production
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm ci --omit=dev --no-audit --no-fund \
+  && npm i -g pm2
 
 COPY --from=builder /app/dist ./dist
 
-EXPOSE 3001
+COPY ./ecosystem.config.js ./
 
-CMD ["node", "dist/main"]
+ENTRYPOINT [ "pm2-runtime", "start", "ecosystem.config.js" ]
 

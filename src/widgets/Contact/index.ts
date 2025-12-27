@@ -1,5 +1,0 @@
-export { Contact } from './Contact';
-
-
-
-

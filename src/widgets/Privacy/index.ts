@@ -1,3 +1,0 @@
-export { Privacy } from './Privacy';
-
-
