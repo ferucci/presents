@@ -1,0 +1,76 @@
+@use '@app/styles/mixins.scss' as m;
+
+.contact {
+  padding: var(--spacing-2xl) 0;
+  background: var(--gradient-dark);
+}
+
+.container {
+  @include m.container;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+
+  h2 {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  p {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-muted);
+  }
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: var(--spacing-2xl);
+  align-items: start;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.infoItem {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-start;
+
+  h4 {
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-text-primary);
+  }
+
+  p {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+}
+
+.infoIcon {
+  font-size: 2rem;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.formWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+

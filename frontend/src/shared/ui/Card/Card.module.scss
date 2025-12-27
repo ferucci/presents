@@ -1,0 +1,20 @@
+@use '@app/styles/mixins.scss' as m;
+
+.card {
+  @include m.glass-effect;
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-base);
+}
+
+.hover {
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-primary);
+  }
+}
+
+.glow {
+  animation: glow 3s ease-in-out infinite;
+}
